@@ -41,36 +41,158 @@ interface ChatInterfaceProps {
   toggleSidebar: () => void;
 }
 
+import NexaStar from '../Assets/Nexa-Star.png';
+
+// ... (imports remain the same)
+
 // Spark/Star Icon for the Greeting and Model Message
-const SparkIcon = ({ className, isAnimating }: { className?: string; isAnimating?: boolean }) => (
-  <svg
-    viewBox="0 0 24 24"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    className={className}
-  >
+const NexaIcon = ({ className, isAnimating, isGreeting }: { className?: string; isAnimating?: boolean; isGreeting?: boolean }) => (
+  <div className={`relative ${className} flex items-center justify-center`}>
     {isAnimating && (
       <style>
         {`
-          @keyframes crayon-pulse {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 1; }
+          @keyframes rotate-ease {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
           }
-          .spark-arm-1 { animation: crayon-pulse 1.2s infinite ease-in-out 0s; }
-          .spark-arm-2 { animation: crayon-pulse 1.2s infinite ease-in-out 0.15s; }
-          .spark-arm-3 { animation: crayon-pulse 1.2s infinite ease-in-out 0.3s; }
-          .spark-arm-4 { animation: crayon-pulse 1.2s infinite ease-in-out 0.45s; }
+          .nexa-loading {
+            animation: rotate-ease 1.5s cubic-bezier(0.2, 0.8, 0.2, 1) infinite;
+          }
         `}
       </style>
     )}
-    <g fill="currentColor">
-      <rect x="10.75" y="3" width="2.5" height="18" rx="1.25" className={isAnimating ? "spark-arm-1" : ""} />
-      <rect x="10.75" y="3" width="2.5" height="18" rx="1.25" transform="rotate(45 12 12)" className={isAnimating ? "spark-arm-2" : ""} />
-      <rect x="10.75" y="3" width="2.5" height="18" rx="1.25" transform="rotate(90 12 12)" className={isAnimating ? "spark-arm-3" : ""} />
-      <rect x="10.75" y="3" width="2.5" height="18" rx="1.25" transform="rotate(135 12 12)" className={isAnimating ? "spark-arm-4" : ""} />
-    </g>
-  </svg>
+    {isGreeting && (
+      <style>
+        {`
+          @keyframes star-enter {
+            0% { 
+              transform: scale(0) rotate(0deg);
+              opacity: 0;
+              filter: brightness(1) drop-shadow(0 0 0px rgba(255,255,255,0));
+            }
+            20% {
+              transform: scale(1.2) rotate(180deg);
+              opacity: 1;
+              filter: brightness(2) drop-shadow(0 0 20px rgba(59,130,246,0.8));
+            }
+            40% {
+              transform: scale(1) rotate(360deg);
+              filter: brightness(1) drop-shadow(0 0 0px rgba(255,255,255,0));
+            }
+            80% {
+              transform: translateX(0) rotate(720deg);
+            }
+            100% {
+              transform: translateX(0) rotate(720deg);
+            }
+          }
+          
+          @keyframes text-reveal {
+            0% { 
+              opacity: 0;
+              filter: blur(10px);
+              transform: translateX(20px);
+            }
+            100% { 
+              opacity: 1;
+              filter: blur(0);
+              transform: translateX(0);
+            }
+          }
+
+          .nexa-greeting-star {
+            animation: star-enter 2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+          }
+
+          .nexa-greeting-text span {
+            opacity: 0;
+            animation: text-reveal 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+          }
+        `}
+      </style>
+    )}
+    <img
+      src={NexaStar}
+      alt="Nexa"
+      className={`w-full h-full object-contain ${isAnimating ? 'nexa-loading' : ''} ${isGreeting ? 'nexa-greeting-star' : ''}`}
+    />
+  </div>
 );
+
+// ... (rest of the file)
+
+// Inside ChatInterface component render:
+
+{/* Action Buttons */ }
+{
+  msg.content && (
+    <div className="flex items-center gap-4 mt-1 pl-1 select-none">
+      <NexaIcon className="w-5 h-5" />
+      <div className="flex items-center gap-2">
+        {/* ... buttons ... */}
+      </div>
+      <span className="text-[11px] text-[#999999] ml-auto">Nexa can make mistakes. Please double-check responses.</span>
+    </div>
+  )
+}
+                    </div >
+                  )}
+                </div >
+              ))}
+
+{
+  (streamingContent || isTyping) && (
+    <div className="flex gap-4 fade-in">
+      <div className="flex flex-col gap-2 w-full max-w-full">
+        {streamingContent && (
+          <div className="text-claude-text text-[15px] leading-relaxed pl-1 prose prose-stone prose-sm max-w-none">
+            <ReactMarkdown
+              components={{
+                code: (props) => (
+                  <CodeBlockRenderer {...props} onArtifactFound={onArtifactOpen} />
+                )
+              }}
+            >
+              {streamingContent}
+            </ReactMarkdown>
+          </div>
+        )}
+        <div className="flex items-center gap-4 mt-1 pl-1 select-none">
+          <NexaIcon className="w-5 h-5" isAnimating={true} />
+        </div>
+      </div>
+    </div>
+  )
+}
+<div ref={messagesEndRef} />
+            </div >
+          </div >
+        )}
+
+{
+  !hasMessages && (
+    <div className="min-h-full flex flex-col items-center pt-64 px-4 pb-20">
+      <div className="mb-12">
+        <div className="bg-[#E2E2E2] px-3 py-1.5 rounded-md text-[11px] font-medium text-gray-500 border border-transparent">
+          Free plan · <span className="underline decoration-gray-400/50 cursor-pointer">Upgrade</span>
+        </div>
+      </div>
+
+      <div className="flex items-center gap-3 mb-8">
+        <NexaIcon className="w-8 h-8" isGreeting={true} />
+        <h1 className="font-serif text-[32px] text-[#2D2D2D] tracking-tight nexa-greeting-text flex">
+          {`Good afternoon, ${user.name}`.split('').map((char, i) => (
+            <span key={i} style={{ animationDelay: `${1 + i * 0.03}s` }} className={char === ' ' ? 'w-2' : ''}>
+              {char}
+            </span>
+          ))}
+        </h1>
+      </div>
+
+      {inputUI}
+    </div>
+  )
+}
 
 interface TooltipProps {
   content: string;
