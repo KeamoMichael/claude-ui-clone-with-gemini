@@ -871,7 +871,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ user, onChatStart, onArti
                       {/* Action Buttons */}
                       {msg.content && (
                         <div className="flex items-center gap-4 mt-1 pl-1 select-none">
-                          <SparkIcon className="w-5 h-5 text-claude-accent" />
+                          <NexaIcon className="w-5 h-5 text-claude-accent" />
                           <div className="flex items-center gap-2">
                             <button className="p-1.5 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-md transition-colors"><Copy size={14} /></button>
                             <button className="p-1.5 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-md transition-colors"><RotateCcw size={14} /></button>
@@ -903,7 +903,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ user, onChatStart, onArti
                       </div>
                     )}
                     <div className="flex items-center gap-4 mt-1 pl-1 select-none">
-                      <SparkIcon className="w-5 h-5 text-claude-accent" isAnimating={true} />
+                      <NexaIcon className="w-5 h-5 text-claude-accent" isAnimating={true} />
                     </div>
                   </div>
                 </div>
@@ -922,7 +922,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ user, onChatStart, onArti
             </div>
 
             <div className="flex items-center gap-3 mb-8 fade-in">
-              <SparkIcon className="w-8 h-8 text-claude-accent" />
+              <NexaIcon className="w-8 h-8 text-claude-accent" />
               <h1 className="font-serif text-[32px] text-[#2D2D2D] tracking-tight">
                 Good afternoon, {user.name}
               </h1>
