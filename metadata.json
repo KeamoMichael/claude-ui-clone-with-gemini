@@ -1,0 +1,5 @@
+{
+  "name": "Claude UI Clone with Gemini",
+  "description": "A pixel-perfect recreation of the Claude.ai interface powered by Google's Gemini API.",
+  "requestFramePermissions": []
+}
