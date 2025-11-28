@@ -1,7 +1,9 @@
 import { SearchResult } from '../types';
 
-const GOOGLE_SEARCH_API_KEY = (import.meta as any).env?.VITE_GOOGLE_SEARCH_API_KEY;
-const GOOGLE_SEARCH_ENGINE_ID = (import.meta as any).env?.VITE_GOOGLE_SEARCH_ENGINE_ID;
+// @ts-ignore - Vite env variables
+const GOOGLE_SEARCH_API_KEY = import.meta.env.VITE_GOOGLE_SEARCH_API_KEY;
+// @ts-ignore - Vite env variables
+const GOOGLE_SEARCH_ENGINE_ID = import.meta.env.VITE_GOOGLE_SEARCH_ENGINE_ID;
 
 /**
  * Performs a web search using Google Custom Search API

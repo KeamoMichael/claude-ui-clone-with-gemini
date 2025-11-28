@@ -482,7 +482,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ user, onChatStart, onArti
   }
 
   const inputUI = (
-    <div className={`relative w-full ${isArtifactOpen ? 'max-w-2xl px-0' : 'max-w-2xl'} mx-auto z-20 transition-all duration-500`}>
+    <div className={`relative w-full ${isArtifactOpen ? 'max-w-2xl px-0' : 'max-w-3xl'} mx-auto z-20 transition-all duration-500`}>
       <div className="bg-white rounded-2xl border border-[#E5E2DA] shadow-sm focus-within:ring-1 focus-within:ring-black/5 focus-within:border-gray-300 transition-all">
         <div className="p-3 pb-2">
           <textarea
