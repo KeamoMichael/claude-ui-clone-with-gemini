@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { X, Copy, Share, Check, Terminal } from 'lucide-react';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { oneLight } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { Artifact } from '../types';
 
 interface ArtifactPanelProps {
@@ -58,10 +60,28 @@ const ArtifactPanel: React.FC<ArtifactPanelProps> = ({ isOpen, artifact, onClose
 
       {/* Content */}
       <div className="flex-1 overflow-auto bg-white">
-        <div className="p-4 min-h-full">
-          <pre className="font-mono text-[13px] leading-relaxed text-[#24292e] whitespace-pre-wrap break-words">
-            <code>{artifact.content}</code>
-          </pre>
+        <div className="min-h-full">
+          <SyntaxHighlighter
+            language={artifact.language || 'text'}
+            style={oneLight}
+            customStyle={{
+              margin: 0,
+              padding: '1.5rem',
+              background: 'transparent',
+              fontSize: '13px',
+              lineHeight: '1.6',
+              fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace'
+            }}
+            showLineNumbers={true}
+            lineNumberStyle={{
+              minWidth: '2.5em',
+              paddingRight: '1em',
+              color: '#9CA3AF',
+              textAlign: 'right'
+            }}
+          >
+            {artifact.content}
+          </SyntaxHighlighter>
         </div>
       </div>
 

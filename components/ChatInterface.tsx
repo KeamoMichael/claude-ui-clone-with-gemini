@@ -26,6 +26,8 @@ import {
   Loader2
 } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { oneLight } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { GeminiModel, Message, Artifact, SearchResult, SearchStatus, FetchedUrl } from '../types';
 import { streamMessage, streamMessageWithSearch } from '../services/geminiService';
 import { performWebSearch, fetchUrlContent, shouldPerformWebSearch } from '../services/searchService';
@@ -124,10 +126,23 @@ const CodeBlockRenderer = ({ inline, className, children, onArtifactFound }: any
             View Code
           </div>
         </div>
-        <div className="p-3 bg-white">
-          <div className="text-xs text-gray-500 font-mono line-clamp-3 leading-relaxed opacity-70">
+        <div className="bg-white max-h-32 overflow-hidden relative">
+          <SyntaxHighlighter
+            language={language}
+            style={oneLight}
+            customStyle={{
+              margin: 0,
+              padding: '12px',
+              background: 'white',
+              fontSize: '12px',
+              lineHeight: '1.5',
+              fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace',
+            }}
+            wrapLongLines={true}
+          >
             {code}
-          </div>
+          </SyntaxHighlighter>
+          <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-white to-transparent pointer-events-none" />
         </div>
       </div>
     );
