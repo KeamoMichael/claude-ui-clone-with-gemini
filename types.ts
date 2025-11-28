@@ -1,8 +1,33 @@
+export interface SearchResult {
+  id: string;
+  title: string;
+  url: string;
+  snippet: string;
+  displayUrl: string;
+}
+
+export interface FetchedUrl {
+  url: string;
+  title: string;
+  content: string;
+  timestamp: number;
+}
+
+export enum SearchStatus {
+  IDLE = 'idle',
+  SEARCHING = 'searching',
+  COMPLETED = 'completed',
+  FAILED = 'failed'
+}
+
 export interface Message {
   id: string;
   role: 'user' | 'model';
   content: string;
   timestamp: number;
+  searchResults?: SearchResult[];
+  searchStatus?: SearchStatus;
+  fetchedUrls?: FetchedUrl[];
 }
 
 export interface ChatSession {
