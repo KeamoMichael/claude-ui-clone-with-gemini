@@ -23,10 +23,12 @@ interface SidebarProps {
   startNewChat: () => void;
   user: User;
   recentChats: ChatSession[];
+  recentChats: ChatSession[];
   onLoadChat?: (chatId: string) => void;
+  onOpenSettings?: () => void;
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, startNewChat, user, recentChats, onLoadChat }) => {
+const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, startNewChat, user, recentChats, onLoadChat, onOpenSettings }) => {
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const profileRef = useRef<HTMLDivElement>(null);
 
@@ -144,7 +146,10 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, startNewChat, 
                   </div>
 
                   <div className="py-1.5">
-                    <button className="w-full flex items-center justify-between px-3 py-2 hover:bg-gray-50 text-left text-[13px] text-gray-700 transition-colors">
+                    <button
+                      onClick={onOpenSettings}
+                      className="w-full flex items-center justify-between px-3 py-2 hover:bg-gray-50 text-left text-[13px] text-gray-700 transition-colors"
+                    >
                       <div className="flex items-center gap-3">
                         <Settings size={16} className="text-gray-500" />
                         <span>Settings</span>
@@ -167,14 +172,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, startNewChat, 
                   <div className="h-px bg-gray-100 mx-3 my-0.5" />
 
                   <div className="py-1.5">
-                    <button className="w-full flex items-center gap-3 px-3 py-2 hover:bg-gray-50 text-left text-[13px] text-gray-700 transition-colors">
-                      <ArrowUpCircle size={16} className="text-gray-500" />
-                      <span>Upgrade plan</span>
-                    </button>
-                    <button className="w-full flex items-center gap-3 px-3 py-2 hover:bg-gray-50 text-left text-[13px] text-gray-700 transition-colors">
-                      <Download size={16} className="text-gray-500" />
-                      <span>Download Nexa for Windows</span>
-                    </button>
+
                     <button className="w-full flex items-center justify-between px-3 py-2 hover:bg-gray-50 text-left text-[13px] text-gray-700 transition-colors">
                       <div className="flex items-center gap-3">
                         <Info size={16} className="text-gray-500" />

@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import Sidebar from './components/Sidebar';
 import ChatInterface from './components/ChatInterface';
 import ArtifactPanel from './components/ArtifactPanel';
+import SettingsModal from './components/SettingsModal';
 import { User, ChatSession, Artifact } from './types';
 
 // Mock User Data
@@ -15,6 +16,7 @@ const mockUser: User = {
 const App: React.FC = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isArtifactOpen, setIsArtifactOpen] = useState(false);
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [currentArtifact, setCurrentArtifact] = useState<Artifact | null>(null);
   const [resetChatTrigger, setResetChatTrigger] = useState(0);
   const [recentChats, setRecentChats] = useState<ChatSession[]>(() => {
@@ -139,7 +141,10 @@ const App: React.FC = () => {
         user={mockUser}
         startNewChat={startNewChat}
         recentChats={recentChats}
+        startNewChat={startNewChat}
+        recentChats={recentChats}
         onLoadChat={loadChat}
+        onOpenSettings={() => setIsSettingsOpen(true)}
       />
 
       {/* Main Content Area (Chat + [Resizer + Artifact]) */}
@@ -187,6 +192,12 @@ const App: React.FC = () => {
           </>
         )}
       </div>
+
+      <SettingsModal
+        isOpen={isSettingsOpen}
+        onClose={() => setIsSettingsOpen(false)}
+        user={mockUser}
+      />
     </div>
   );
 };
