@@ -476,8 +476,8 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ user, onChatStart, onArti
   const menuPositionClass = hasMessages ? "bottom-full mb-2" : "top-full mt-2";
 
   const getModelName = (model: GeminiModel) => {
-    if (model === GeminiModel.PRO) return "Sonnet 4.5";
-    if (model === GeminiModel.FLASH) return "Haiku 4.5";
+    if (model === GeminiModel.PRO) return "Nexa 2.0 Pro";
+    if (model === GeminiModel.FLASH) return "Nexa 1.5 Fast";
     return "Model";
   }
 
@@ -637,7 +637,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ user, onChatStart, onArti
                   >
                     <button className="w-full flex flex-col items-start px-4 py-3 hover:bg-gray-50 text-left transition-colors group">
                       <div className="w-full flex items-center justify-between mb-0.5">
-                        <span className="text-[13px] font-medium text-gray-700">Opus 4.5</span>
+                        <span className="text-[13px] font-medium text-gray-700">Nexa 3.0 Ultra</span>
                         <span className="text-[10px] font-semibold text-[#3B82F6] border border-[#3B82F6]/30 px-1.5 py-0.5 rounded-full bg-blue-50">Upgrade</span>
                       </div>
                       <span className="text-[12px] text-gray-500">Most capable for complex work</span>
@@ -648,10 +648,10 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ user, onChatStart, onArti
                       className={`w-full flex flex-col items-start px-4 py-3 hover:bg-gray-50 text-left transition-colors relative ${selectedModel === GeminiModel.PRO ? 'bg-[#F5F4F0]' : ''}`}
                     >
                       <div className="w-full flex items-center justify-between mb-0.5">
-                        <span className="text-[13px] font-medium text-gray-900">Sonnet 4.5</span>
+                        <span className="text-[13px] font-medium text-gray-900">Nexa 2.0 Pro</span>
                         {selectedModel === GeminiModel.PRO && <Check size={14} className="text-[#3B82F6]" strokeWidth={3} />}
                       </div>
-                      <span className="text-[12px] text-gray-500">Smartest for everyday tasks</span>
+                      <span className="text-[12px] text-gray-500">Advanced reasoning and analysis</span>
                     </button>
 
                     <button
@@ -659,10 +659,10 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ user, onChatStart, onArti
                       className={`w-full flex flex-col items-start px-4 py-3 hover:bg-gray-50 text-left transition-colors relative ${selectedModel === GeminiModel.FLASH ? 'bg-[#F5F4F0]' : ''}`}
                     >
                       <div className="w-full flex items-center justify-between mb-0.5">
-                        <span className="text-[13px] font-medium text-gray-900">Haiku 4.5</span>
+                        <span className="text-[13px] font-medium text-gray-900">Nexa 1.5 Fast</span>
                         {selectedModel === GeminiModel.FLASH && <Check size={14} className="text-[#3B82F6]" strokeWidth={3} />}
                       </div>
-                      <span className="text-[12px] text-gray-500">Fastest for quick answers</span>
+                      <span className="text-[12px] text-gray-500">Lightning-fast responses</span>
                     </button>
 
                     <div className="h-px bg-gray-100 my-1 mx-0" />
@@ -680,8 +680,8 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ user, onChatStart, onArti
                   onClick={handleSend}
                   disabled={!input.trim() || isTyping}
                   className={`p-1.5 rounded-lg transition-all duration-200 ${input.trim() && !isTyping
-                      ? 'bg-claude-accent text-white hover:bg-[#333333]'
-                      : 'bg-[#EAE8E3] text-gray-400 cursor-not-allowed'
+                    ? 'bg-claude-accent text-white hover:bg-[#333333]'
+                    : 'bg-[#EAE8E3] text-gray-400 cursor-not-allowed'
                     }`}
                 >
                   <ArrowUp size={16} strokeWidth={3} />
@@ -810,7 +810,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ user, onChatStart, onArti
                             <button className="p-1.5 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-md transition-colors"><ThumbsUp size={14} /></button>
                             <button className="p-1.5 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-md transition-colors"><ThumbsDown size={14} /></button>
                           </div>
-                          <span className="text-[11px] text-[#999999] ml-auto">Claude can make mistakes. Please double-check responses.</span>
+                          <span className="text-[11px] text-[#999999] ml-auto">Nexa can make mistakes. Please double-check responses.</span>
                         </div>
                       )}
                     </div>
