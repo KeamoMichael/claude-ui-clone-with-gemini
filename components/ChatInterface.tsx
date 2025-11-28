@@ -251,7 +251,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ user, onChatStart, onArti
   const [isTyping, setIsTyping] = useState(false);
   const [chatTitle, setChatTitle] = useState<string>('New Chat');
 
-  const [selectedModel, setSelectedModel] = useState<GeminiModel>(GeminiModel.PRO);
+  const [selectedModel, setSelectedModel] = useState<GeminiModel>(GeminiModel.FLASH);
 
   const [streamingContent, setStreamingContent] = useState('');
 
@@ -636,6 +636,17 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ user, onChatStart, onArti
                     className={`absolute right-0 w-[300px] bg-white rounded-xl shadow-xl border border-gray-100 py-2 z-[100] animate-in fade-in zoom-in-95 duration-100 origin-top-right ${menuPositionClass}`}
                   >
                     <button
+                      onClick={() => { setSelectedModel(GeminiModel.FLASH); setShowModelMenu(false); }}
+                      className={`w-full flex flex-col items-start px-4 py-3 hover:bg-gray-50 text-left transition-colors relative ${selectedModel === GeminiModel.FLASH ? 'bg-[#F5F4F0]' : ''}`}
+                    >
+                      <div className="w-full flex items-center justify-between mb-0.5">
+                        <span className="text-[13px] font-medium text-gray-900">Nexa 1.5 Fast</span>
+                        {selectedModel === GeminiModel.FLASH && <Check size={14} className="text-[#3B82F6]" strokeWidth={3} />}
+                      </div>
+                      <span className="text-[12px] text-gray-500">Lightning-fast responses</span>
+                    </button>
+
+                    <button
                       disabled={true}
                       className="w-full flex flex-col items-start px-4 py-3 bg-gray-50/50 text-left cursor-not-allowed opacity-60 relative"
                     >
@@ -647,17 +658,6 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ user, onChatStart, onArti
                         {selectedModel === GeminiModel.PRO && <Check size={14} className="text-[#3B82F6]" strokeWidth={3} />}
                       </div>
                       <span className="text-[12px] text-gray-500">Advanced reasoning and analysis</span>
-                    </button>
-
-                    <button
-                      onClick={() => { setSelectedModel(GeminiModel.FLASH); setShowModelMenu(false); }}
-                      className={`w-full flex flex-col items-start px-4 py-3 hover:bg-gray-50 text-left transition-colors relative ${selectedModel === GeminiModel.FLASH ? 'bg-[#F5F4F0]' : ''}`}
-                    >
-                      <div className="w-full flex items-center justify-between mb-0.5">
-                        <span className="text-[13px] font-medium text-gray-900">Nexa 1.5 Fast</span>
-                        {selectedModel === GeminiModel.FLASH && <Check size={14} className="text-[#3B82F6]" strokeWidth={3} />}
-                      </div>
-                      <span className="text-[12px] text-gray-500">Lightning-fast responses</span>
                     </button>
                   </div>
                 )}
