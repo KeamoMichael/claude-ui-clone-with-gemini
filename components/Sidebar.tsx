@@ -23,9 +23,10 @@ interface SidebarProps {
   startNewChat: () => void;
   user: User;
   recentChats: ChatSession[];
+  onLoadChat?: (chatId: string) => void;
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, startNewChat, user, recentChats }) => {
+const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, startNewChat, user, recentChats, onLoadChat }) => {
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const profileRef = useRef<HTMLDivElement>(null);
 
@@ -83,7 +84,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, startNewChat, 
                 onClick={startNewChat}
                 className="w-full flex items-center gap-2.5 px-2.5 py-2 rounded-lg hover:bg-[#E4E2DD] transition-colors text-claude-text group"
               >
-                <div className="bg-claude-accent text-white rounded-full p-0.5 shrink-0">
+                <div className="bg-[#3B82F6] text-white rounded-full p-0.5 shrink-0">
                   <Plus size={14} strokeWidth={3} />
                 </div>
                 <span className="font-medium whitespace-nowrap opacity-100">
@@ -122,7 +123,10 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, startNewChat, 
                 <ul className="space-y-0.5">
                   {recentChats.map(item => (
                     <li key={item.id}>
-                      <button className="w-full text-left px-3 py-1.5 rounded-lg hover:bg-[#E4E2DD] truncate transition-colors">
+                      <button
+                        onClick={() => onLoadChat && onLoadChat(item.id)}
+                        className="w-full text-left px-3 py-1.5 rounded-lg hover:bg-[#E4E2DD] truncate transition-colors"
+                      >
                         <span className="truncate block opacity-90 text-[13px]">{item.title}</span>
                       </button>
                     </li>
@@ -195,7 +199,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, startNewChat, 
                 onClick={() => setShowProfileMenu(!showProfileMenu)}
                 className={`flex items-center gap-3 p-2 rounded-lg hover:bg-[#E4E2DD] cursor-pointer transition-colors ${showProfileMenu ? 'bg-[#E4E2DD]' : ''}`}
               >
-                <div className="w-7 h-7 rounded-full bg-[#333333] text-white flex items-center justify-center font-medium text-xs shrink-0">
+                <div className="w-7 h-7 rounded-full bg-[#3B82F6] text-white flex items-center justify-center font-medium text-xs shrink-0">
                   {user.name.charAt(0)}
                 </div>
                 <div className="flex-1 min-w-0 opacity-100">

@@ -17,45 +17,77 @@ const App: React.FC = () => {
   const [isArtifactOpen, setIsArtifactOpen] = useState(false);
   const [currentArtifact, setCurrentArtifact] = useState<Artifact | null>(null);
   const [resetChatTrigger, setResetChatTrigger] = useState(0);
-  const [recentChats, setRecentChats] = useState<ChatSession[]>([]);
-  
+  const [recentChats, setRecentChats] = useState<ChatSession[]>(() => {
+    const saved = localStorage.getItem('nexa_chats');
+    return saved ? JSON.parse(saved) : [];
+  });
+  const [currentChatId, setCurrentChatId] = useState<string | null>(null);
+  const [initialMessages, setInitialMessages] = useState<any[]>([]);
+
   // Split Pane State
   const [chatWidth, setChatWidth] = useState(50); // Percentage
   const [isResizing, setIsResizing] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
+  useEffect(() => {
+    localStorage.setItem('nexa_chats', JSON.stringify(recentChats));
+  }, [recentChats]);
+
   const startNewChat = () => {
     setResetChatTrigger(prev => prev + 1);
     setIsArtifactOpen(false);
     setCurrentArtifact(null);
+    setCurrentChatId(null);
+    setInitialMessages([]);
     if (!isSidebarOpen) setIsSidebarOpen(true);
   };
 
-  const handleChatStart = (title: string) => {
-    const newChat: ChatSession = {
-      id: Date.now().toString(),
-      title: title,
-      messages: [],
-      updatedAt: Date.now()
-    };
-    setRecentChats(prev => [newChat, ...prev]);
+  const handleChatStart = (title: string, messages: any[]) => {
+    if (currentChatId) {
+      // Update existing chat
+      setRecentChats(prev => prev.map(chat =>
+        chat.id === currentChatId
+          ? { ...chat, messages, updatedAt: Date.now() }
+          : chat
+      ));
+    } else {
+      // Create new chat
+      const newChat: ChatSession = {
+        id: Date.now().toString(),
+        title: title,
+        messages: messages,
+        updatedAt: Date.now()
+      };
+      setRecentChats(prev => [newChat, ...prev]);
+      setCurrentChatId(newChat.id);
+    }
+  };
+
+  const loadChat = (chatId: string) => {
+    const chat = recentChats.find(c => c.id === chatId);
+    if (chat) {
+      setCurrentChatId(chat.id);
+      setInitialMessages(chat.messages);
+      setResetChatTrigger(prev => prev + 1);
+      if (!isSidebarOpen) setIsSidebarOpen(true);
+    }
   };
 
   const handleArtifactOpen = (artifact: Artifact) => {
     if (!isArtifactOpen) {
-       setIsSidebarOpen(false); // Close sidebar on artifact open
-       setIsArtifactOpen(true);
-       setChatWidth(50); // Reset split to 50/50
+      setIsSidebarOpen(false); // Close sidebar on artifact open
+      setIsArtifactOpen(true);
+      setChatWidth(50); // Reset split to 50/50
     }
     setCurrentArtifact(artifact);
   };
 
   const handleArtifactClose = () => {
-      setIsArtifactOpen(false);
+    setIsArtifactOpen(false);
   };
-  
+
   const toggleSidebar = () => {
-      setIsSidebarOpen(!isSidebarOpen);
+    setIsSidebarOpen(!isSidebarOpen);
   };
 
   // Resize Handlers
@@ -72,12 +104,12 @@ const App: React.FC = () => {
       const containerWidth = containerRef.current.clientWidth;
       // Calculate width of chat relative to the container (excluding sidebar if it's external, but here sidebar is sibling)
       // Actually, we are resizing the middle chat pane relative to the remaining space.
-      
+
       // Let's assume the container is the flex parent of Chat and Artifact.
       // We need to calculate mouse X relative to that container.
       const rect = containerRef.current.getBoundingClientRect();
       const newChatWidth = ((e.clientX - rect.left) / containerWidth) * 100;
-      
+
       // Clamp values
       if (newChatWidth > 20 && newChatWidth < 80) {
         setChatWidth(newChatWidth);
@@ -101,57 +133,59 @@ const App: React.FC = () => {
 
   return (
     <div className="flex h-screen w-screen bg-claude-bg text-claude-text font-sans overflow-hidden">
-      <Sidebar 
-        isOpen={isSidebarOpen} 
-        toggleSidebar={toggleSidebar} 
+      <Sidebar
+        isOpen={isSidebarOpen}
+        toggleSidebar={toggleSidebar}
         user={mockUser}
         startNewChat={startNewChat}
         recentChats={recentChats}
+        onLoadChat={loadChat}
       />
-      
+
       {/* Main Content Area (Chat + [Resizer + Artifact]) */}
-      <div 
+      <div
         ref={containerRef}
         className="flex-1 relative flex min-w-0 transition-all duration-300"
       >
-         {/* Chat Interface - Flexible Width */}
-         <div 
-            className="h-full relative"
-            style={{ 
-                width: isArtifactOpen ? `${chatWidth}%` : '100%',
-                flexShrink: 0
-            }}
-         >
-             <ChatInterface 
-               key={resetChatTrigger} 
-               user={mockUser} 
-               onChatStart={handleChatStart}
-               onArtifactOpen={handleArtifactOpen}
-               isArtifactOpen={isArtifactOpen}
-               isSidebarOpen={isSidebarOpen}
-               toggleSidebar={toggleSidebar}
-             />
-         </div>
+        {/* Chat Interface - Flexible Width */}
+        <div
+          className="h-full relative"
+          style={{
+            width: isArtifactOpen ? `${chatWidth}%` : '100%',
+            flexShrink: 0
+          }}
+        >
+          <ChatInterface
+            key={resetChatTrigger}
+            user={mockUser}
+            onChatStart={handleChatStart}
+            onArtifactOpen={handleArtifactOpen}
+            isArtifactOpen={isArtifactOpen}
+            isSidebarOpen={isSidebarOpen}
+            toggleSidebar={toggleSidebar}
+            initialMessages={initialMessages}
+          />
+        </div>
 
-         {/* Resize Handle and Artifact Panel */}
-         {isArtifactOpen && (
-            <>
-                <div 
-                    className="w-1 cursor-col-resize hover:bg-claude-accent/50 bg-transparent z-50 transition-colors"
-                    onMouseDown={startResizing}
-                />
-                <div 
-                    className="flex-1 min-w-0"
-                    style={{ width: `${100 - chatWidth}%` }}
-                >
-                    <ArtifactPanel 
-                        isOpen={isArtifactOpen}
-                        artifact={currentArtifact}
-                        onClose={handleArtifactClose}
-                    />
-                </div>
-            </>
-         )}
+        {/* Resize Handle and Artifact Panel */}
+        {isArtifactOpen && (
+          <>
+            <div
+              className="w-1 cursor-col-resize hover:bg-claude-accent/50 bg-transparent z-50 transition-colors"
+              onMouseDown={startResizing}
+            />
+            <div
+              className="flex-1 min-w-0"
+              style={{ width: `${100 - chatWidth}%` }}
+            >
+              <ArtifactPanel
+                isOpen={isArtifactOpen}
+                artifact={currentArtifact}
+                onClose={handleArtifactClose}
+              />
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

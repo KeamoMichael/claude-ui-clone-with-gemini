@@ -34,85 +34,39 @@ import { performWebSearch, fetchUrlContent, shouldPerformWebSearch } from '../se
 
 interface ChatInterfaceProps {
   user: { name: string };
-  onChatStart: (title: string) => void;
+  onChatStart: (title: string, messages: any[]) => void;
   onArtifactOpen: (artifact: Artifact) => void;
   isArtifactOpen: boolean;
   isSidebarOpen: boolean;
   toggleSidebar: () => void;
+  initialMessages?: Message[];
 }
 
 import NexaStar from '../Assets/Nexa-Star.png';
+import { motion } from 'framer-motion';
 
 // Spark/Star Icon for the Greeting and Model Message
 const NexaIcon = ({ className, isAnimating, isGreeting }: { className?: string; isAnimating?: boolean; isGreeting?: boolean }) => (
   <div className={`relative ${className} flex items-center justify-center`}>
-    {isAnimating && (
-      <style>
-        {`
-          @keyframes rotate-ease {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-          }
-          .nexa-loading {
-            animation: rotate-ease 1.5s cubic-bezier(0.2, 0.8, 0.2, 1) infinite;
-          }
-        `}
-      </style>
-    )}
-    {isGreeting && (
-      <style>
-        {`
-          @keyframes star-enter {
-            0% { 
-              transform: scale(0) rotate(0deg);
-              opacity: 0;
-              filter: brightness(1) drop-shadow(0 0 0px rgba(255,255,255,0));
-            }
-            20% {
-              transform: scale(1.2) rotate(180deg);
-              opacity: 1;
-              filter: brightness(2) drop-shadow(0 0 20px rgba(59,130,246,0.8));
-            }
-            40% {
-              transform: scale(1) rotate(360deg);
-              filter: brightness(1) drop-shadow(0 0 0px rgba(255,255,255,0));
-            }
-            80% {
-              transform: translateX(0) rotate(720deg);
-            }
-            100% {
-              transform: translateX(0) rotate(720deg);
-            }
-          }
-          
-          @keyframes text-reveal {
-            0% { 
-              opacity: 0;
-              filter: blur(10px);
-              transform: translateX(20px);
-            }
-            100% { 
-              opacity: 1;
-              filter: blur(0);
-              transform: translateX(0);
-            }
-          }
-
-          .nexa-greeting-star {
-            animation: star-enter 2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-          }
-
-          .nexa-greeting-text span {
-            opacity: 0;
-            animation: text-reveal 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-          }
-        `}
-      </style>
-    )}
-    <img
+    <motion.img
       src={NexaStar}
       alt="Nexa"
-      className={`w-full h-full object-contain ${isAnimating ? 'nexa-loading' : ''} ${isGreeting ? 'nexa-greeting-star' : ''}`}
+      className="w-full h-full object-contain"
+      initial={isGreeting ? { scale: 0, rotate: -180 } : {}}
+      animate={
+        isGreeting
+          ? { scale: 1, rotate: 0 }
+          : isAnimating
+            ? { rotate: 360 }
+            : {}
+      }
+      transition={
+        isGreeting
+          ? { duration: 1.2, ease: [0.22, 1, 0.36, 1] }
+          : isAnimating
+            ? { duration: 1.5, repeat: Infinity, ease: [0.2, 0.8, 0.2, 1] }
+            : {}
+      }
     />
   </div>
 );
@@ -324,24 +278,19 @@ const FetchedContentCard: React.FC<FetchedContentCardProps> = ({ fetchedUrls }) 
 };
 
 
-const ChatInterface: React.FC<ChatInterfaceProps> = ({ user, onChatStart, onArtifactOpen, isArtifactOpen, isSidebarOpen, toggleSidebar }) => {
+const ChatInterface: React.FC<ChatInterfaceProps> = ({ user, onChatStart, onArtifactOpen, isArtifactOpen, isSidebarOpen, toggleSidebar, initialMessages }) => {
   const [input, setInput] = useState('');
-  const [messages, setMessages] = useState<Message[]>([]);
+  const [messages, setMessages] = useState<Message[]>(initialMessages || []);
   const [isTyping, setIsTyping] = useState(false);
   const [chatTitle, setChatTitle] = useState<string>('New Chat');
-
   const [selectedModel, setSelectedModel] = useState<GeminiModel>(GeminiModel.FLASH);
-
   const [streamingContent, setStreamingContent] = useState('');
-
   const [showToolsMenu, setShowToolsMenu] = useState(false);
   const [toolsMenuView, setToolsMenuView] = useState<'main' | 'styles'>('main');
   const [showModelMenu, setShowModelMenu] = useState(false);
   const [showTitleMenu, setShowTitleMenu] = useState(false);
-
-  const [useWebSearch, setUseWebSearch] = useState(true);
+  const [useWebSearch, setUseWebSearch] = useState(false);
   const [useExtendedThinking, setUseExtendedThinking] = useState(false);
-
   const [selectedStyle, setSelectedStyle] = useState('Normal');
   const styles = ['Normal', 'Learning', 'Concise', 'Explanatory', 'Formal'];
 
@@ -747,7 +696,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ user, onChatStart, onArti
                   onClick={handleSend}
                   disabled={!input.trim() || isTyping}
                   className={`p-1.5 rounded-lg transition-all duration-200 ${input.trim() && !isTyping
-                    ? 'bg-claude-accent text-white hover:bg-[#333333]'
+                    ? 'bg-[#3B82F6] text-white hover:bg-[#2563EB]'
                     : 'bg-[#EAE8E3] text-gray-400 cursor-not-allowed'
                     }`}
                 >
@@ -921,13 +870,36 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ user, onChatStart, onArti
               </div>
             </div>
 
-            <div className="flex items-center gap-3 mb-8 fade-in">
-              <NexaIcon className="w-8 h-8 text-claude-accent" />
-              <h1 className="font-serif text-[32px] text-[#2D2D2D] tracking-tight">
-                Good afternoon, {user.name}
-              </h1>
+            <div className="flex items-center gap-3 mb-8">
+              <NexaIcon className="w-8 h-8" isGreeting={true} />
+              <motion.h1
+                className="font-serif text-[32px] text-[#2D2D2D] tracking-tight flex"
+                initial="hidden"
+                animate="visible"
+                variants={{
+                  visible: {
+                    transition: {
+                      staggerChildren: 0.03,
+                      delayChildren: 0.2
+                    }
+                  }
+                }}
+              >
+                {`Good afternoon, ${user.name}`.split('').map((char, i) => (
+                  <motion.span
+                    key={i}
+                    className={char === ' ' ? 'w-2' : ''}
+                    variants={{
+                      hidden: { opacity: 0, filter: "blur(10px)", x: -20 },
+                      visible: { opacity: 1, filter: "blur(0px)", x: 0 }
+                    }}
+                    transition={{ duration: 0.5, ease: "easeOut" }}
+                  >
+                    {char}
+                  </motion.span>
+                ))}
+              </motion.h1>
             </div>
-
             {inputUI}
           </div>
         )}
