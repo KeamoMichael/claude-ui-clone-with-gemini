@@ -653,7 +653,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ user, onChatStart, onArti
                       <div className="w-full flex items-center justify-between mb-0.5">
                         <div className="flex items-center gap-2">
                           <span className="text-[13px] font-medium text-gray-900">Nexa 2.0 Pro</span>
-                          <span className="text-[10px] font-semibold text-amber-600 border border-amber-600/30 px-1.5 py-0.5 rounded-full bg-amber-50">Coming Soon</span>
+                          <span className="text-[10px] font-semibold text-blue-600 border border-blue-600/30 px-1.5 py-0.5 rounded-full bg-blue-50">Coming Soon</span>
                         </div>
                         {selectedModel === GeminiModel.PRO && <Check size={14} className="text-[#3B82F6]" strokeWidth={3} />}
                       </div>
@@ -745,9 +745,11 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ user, onChatStart, onArti
                         {user.name.charAt(0)}
                       </div>
                       <div className="bg-[#F0EFEA] text-claude-text px-4 py-2.5 rounded-2xl max-w-[85%] text-[15px] leading-relaxed">
-                        <ReactMarkdown className="prose prose-stone prose-sm max-w-none text-claude-text">
-                          {msg.content}
-                        </ReactMarkdown>
+                        <div className="prose prose-stone prose-sm max-w-none text-claude-text">
+                          <ReactMarkdown>
+                            {msg.content}
+                          </ReactMarkdown>
+                        </div>
                       </div>
                     </>
                   )}
@@ -774,9 +776,8 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ user, onChatStart, onArti
 
                       {/* Message Content */}
                       {msg.content && (
-                        <div className="text-claude-text text-[15px] leading-relaxed pl-1">
+                        <div className="text-claude-text text-[15px] leading-relaxed pl-1 prose prose-stone prose-sm max-w-none">
                           <ReactMarkdown
-                            className="prose prose-stone prose-sm max-w-none text-claude-text"
                             components={{
                               code: (props) => (
                                 <CodeBlockRenderer {...props} onArtifactFound={onArtifactOpen} />
@@ -810,9 +811,8 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ user, onChatStart, onArti
                 <div className="flex gap-4 fade-in">
                   <div className="flex flex-col gap-2 w-full max-w-full">
                     {streamingContent && (
-                      <div className="text-claude-text text-[15px] leading-relaxed pl-1">
+                      <div className="text-claude-text text-[15px] leading-relaxed pl-1 prose prose-stone prose-sm max-w-none">
                         <ReactMarkdown
-                          className="prose prose-stone prose-sm max-w-none text-claude-text"
                           components={{
                             code: (props) => (
                               <CodeBlockRenderer {...props} onArtifactFound={onArtifactOpen} />
