@@ -43,8 +43,6 @@ interface ChatInterfaceProps {
 
 import NexaStar from '../Assets/Nexa-Star.png';
 
-// ... (imports remain the same)
-
 // Spark/Star Icon for the Greeting and Model Message
 const NexaIcon = ({ className, isAnimating, isGreeting }: { className?: string; isAnimating?: boolean; isGreeting?: boolean }) => (
   <div className={`relative ${className} flex items-center justify-center`}>
@@ -118,81 +116,6 @@ const NexaIcon = ({ className, isAnimating, isGreeting }: { className?: string; 
     />
   </div>
 );
-
-// ... (rest of the file)
-
-// Inside ChatInterface component render:
-
-{/* Action Buttons */ }
-{
-  msg.content && (
-    <div className="flex items-center gap-4 mt-1 pl-1 select-none">
-      <NexaIcon className="w-5 h-5" />
-      <div className="flex items-center gap-2">
-        {/* ... buttons ... */}
-      </div>
-      <span className="text-[11px] text-[#999999] ml-auto">Nexa can make mistakes. Please double-check responses.</span>
-    </div>
-  )
-}
-                    </div >
-                  )}
-                </div >
-              ))}
-
-{
-  (streamingContent || isTyping) && (
-    <div className="flex gap-4 fade-in">
-      <div className="flex flex-col gap-2 w-full max-w-full">
-        {streamingContent && (
-          <div className="text-claude-text text-[15px] leading-relaxed pl-1 prose prose-stone prose-sm max-w-none">
-            <ReactMarkdown
-              components={{
-                code: (props) => (
-                  <CodeBlockRenderer {...props} onArtifactFound={onArtifactOpen} />
-                )
-              }}
-            >
-              {streamingContent}
-            </ReactMarkdown>
-          </div>
-        )}
-        <div className="flex items-center gap-4 mt-1 pl-1 select-none">
-          <NexaIcon className="w-5 h-5" isAnimating={true} />
-        </div>
-      </div>
-    </div>
-  )
-}
-<div ref={messagesEndRef} />
-            </div >
-          </div >
-        )}
-
-{
-  !hasMessages && (
-    <div className="min-h-full flex flex-col items-center pt-64 px-4 pb-20">
-      <div className="mb-12">
-        <div className="bg-[#E2E2E2] px-3 py-1.5 rounded-md text-[11px] font-medium text-gray-500 border border-transparent">
-          Free plan · <span className="underline decoration-gray-400/50 cursor-pointer">Upgrade</span>
-        </div>
-      </div>
-
-      <div className="flex items-center gap-3 mb-8">
-        <NexaIcon className="w-8 h-8" isGreeting={true} />
-        <h1 className="font-serif text-[32px] text-[#2D2D2D] tracking-tight nexa-greeting-text flex">
-          {`Good afternoon, ${user.name}`.split('').map((char, i) => (
-            <span key={i} style={{ animationDelay: `${1 + i * 0.03}s` }} className={char === ' ' ? 'w-2' : ''}>
-              {char}
-            </span>
-          ))}
-        </h1>
-      </div>
-
-      {inputUI}
-    </div>
-  )
-}
 
 interface TooltipProps {
   content: string;
