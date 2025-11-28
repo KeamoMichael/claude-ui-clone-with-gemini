@@ -636,11 +636,14 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ user, onChatStart, onArti
                     className={`absolute right-0 w-[300px] bg-white rounded-xl shadow-xl border border-gray-100 py-2 z-[100] animate-in fade-in zoom-in-95 duration-100 origin-top-right ${menuPositionClass}`}
                   >
                     <button
-                      onClick={() => { setSelectedModel(GeminiModel.PRO); setShowModelMenu(false); }}
-                      className={`w-full flex flex-col items-start px-4 py-3 hover:bg-gray-50 text-left transition-colors relative ${selectedModel === GeminiModel.PRO ? 'bg-[#F5F4F0]' : ''}`}
+                      disabled={true}
+                      className="w-full flex flex-col items-start px-4 py-3 bg-gray-50/50 text-left cursor-not-allowed opacity-60 relative"
                     >
                       <div className="w-full flex items-center justify-between mb-0.5">
-                        <span className="text-[13px] font-medium text-gray-900">Nexa 2.0 Pro</span>
+                        <div className="flex items-center gap-2">
+                          <span className="text-[13px] font-medium text-gray-900">Nexa 2.0 Pro</span>
+                          <span className="text-[10px] font-semibold text-amber-600 border border-amber-600/30 px-1.5 py-0.5 rounded-full bg-amber-50">Coming Soon</span>
+                        </div>
                         {selectedModel === GeminiModel.PRO && <Check size={14} className="text-[#3B82F6]" strokeWidth={3} />}
                       </div>
                       <span className="text-[12px] text-gray-500">Advanced reasoning and analysis</span>
