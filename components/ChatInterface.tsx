@@ -635,14 +635,6 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ user, onChatStart, onArti
                     ref={modelMenuRef}
                     className={`absolute right-0 w-[300px] bg-white rounded-xl shadow-xl border border-gray-100 py-2 z-[100] animate-in fade-in zoom-in-95 duration-100 origin-top-right ${menuPositionClass}`}
                   >
-                    <button className="w-full flex flex-col items-start px-4 py-3 hover:bg-gray-50 text-left transition-colors group">
-                      <div className="w-full flex items-center justify-between mb-0.5">
-                        <span className="text-[13px] font-medium text-gray-700">Nexa 3.0 Ultra</span>
-                        <span className="text-[10px] font-semibold text-[#3B82F6] border border-[#3B82F6]/30 px-1.5 py-0.5 rounded-full bg-blue-50">Upgrade</span>
-                      </div>
-                      <span className="text-[12px] text-gray-500">Most capable for complex work</span>
-                    </button>
-
                     <button
                       onClick={() => { setSelectedModel(GeminiModel.PRO); setShowModelMenu(false); }}
                       className={`w-full flex flex-col items-start px-4 py-3 hover:bg-gray-50 text-left transition-colors relative ${selectedModel === GeminiModel.PRO ? 'bg-[#F5F4F0]' : ''}`}
@@ -663,13 +655,6 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ user, onChatStart, onArti
                         {selectedModel === GeminiModel.FLASH && <Check size={14} className="text-[#3B82F6]" strokeWidth={3} />}
                       </div>
                       <span className="text-[12px] text-gray-500">Lightning-fast responses</span>
-                    </button>
-
-                    <div className="h-px bg-gray-100 my-1 mx-0" />
-
-                    <button className="w-full flex items-center justify-between px-4 py-3 hover:bg-gray-50 text-left transition-colors group">
-                      <span className="text-[13px] font-medium text-gray-700">More models</span>
-                      <ChevronRight size={14} className="text-gray-400" />
                     </button>
                   </div>
                 )}
