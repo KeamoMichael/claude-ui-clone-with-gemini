@@ -190,14 +190,24 @@ const SearchResultsCard: React.FC<SearchResultsCardProps> = ({ results, onFetchU
               onClick={() => onFetchUrl(result.url)}
               className="w-full text-left p-3 rounded-lg hover:bg-gray-50 transition-colors group border border-transparent hover:border-gray-200"
             >
-              <div className="flex items-start justify-between gap-2 mb-1">
-                <h4 className="text-sm font-medium text-gray-900 group-hover:text-[#0F62FE] transition-colors line-clamp-1">
-                  {result.title}
-                </h4>
-                <ExternalLink size={12} className="text-gray-400 shrink-0 mt-0.5" />
+              <div className="flex items-start justify-between gap-3 mb-1">
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 mb-1">
+                    <img
+                      src={`https://www.google.com/s2/favicons?domain=${result.displayUrl}&sz=32`}
+                      alt=""
+                      className="w-4 h-4 rounded-sm opacity-80"
+                      onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                    />
+                    <span className="text-xs text-gray-500 truncate">{result.displayUrl}</span>
+                  </div>
+                  <h4 className="text-sm font-medium text-gray-900 group-hover:text-[#0F62FE] transition-colors line-clamp-1">
+                    {result.title}
+                  </h4>
+                </div>
+                <ExternalLink size={12} className="text-gray-400 shrink-0 mt-1" />
               </div>
-              <p className="text-xs text-gray-500 mb-1">{result.displayUrl}</p>
-              <p className="text-xs text-gray-600 line-clamp-2 leading-relaxed">{result.snippet}</p>
+              <p className="text-xs text-gray-600 line-clamp-2 leading-relaxed pl-6">{result.snippet}</p>
             </button>
           ))}
         </div>
@@ -221,8 +231,17 @@ const FetchedContentCard: React.FC<FetchedContentCardProps> = ({ fetchedUrls }) 
           key={index}
           className="flex items-center gap-3 px-4 py-3 bg-white border border-[#E5E2DA] rounded-xl animate-in fade-in duration-300"
         >
-          <div className="w-8 h-8 rounded-lg bg-green-50 flex items-center justify-center border border-green-200 shrink-0">
-            <Check size={16} className="text-green-600" />
+          <div className="w-8 h-8 rounded-lg bg-green-50 flex items-center justify-center border border-green-200 shrink-0 relative overflow-hidden">
+            <img
+              src={`https://www.google.com/s2/favicons?domain=${new URL(fetched.url).hostname}&sz=64`}
+              alt=""
+              className="w-5 h-5 object-contain opacity-90"
+              onError={(e) => {
+                (e.target as HTMLImageElement).style.display = 'none';
+                (e.target as HTMLImageElement).nextElementSibling?.classList.remove('hidden');
+              }}
+            />
+            <Check size={16} className="text-green-600 hidden absolute" />
           </div>
           <div className="flex-1 min-w-0">
             <div className="text-sm font-medium text-gray-900 truncate">
