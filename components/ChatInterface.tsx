@@ -112,7 +112,7 @@ const CodeBlockRenderer = ({ inline, className, children, onArtifactFound, isDar
     // Render the "Preview Card"
     return (
       <div className="my-3 border border-[#E5E2DA] dark:border-[#333] rounded-xl bg-white dark:bg-[#1E1E1E] overflow-hidden shadow-sm hover:shadow-md transition-shadow cursor-pointer group">
-        <div className="px-4 py-3 bg-[#FAFAF8] dark:bg-[#2A2A2A] border-b border-[#E5E2DA] dark:border-[#333] flex items-center justify-between">
+        <div className="px-4 py-3 bg-[#FAFAF8] dark:bg-[#252526] border-b border-[#E5E2DA] dark:border-[#333] flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-lg bg-gray-100 dark:bg-[#333] flex items-center justify-center border border-gray-200 dark:border-gray-700">
               <Code size={16} className="text-gray-600 dark:text-gray-400" />
@@ -149,11 +149,11 @@ const CodeBlockRenderer = ({ inline, className, children, onArtifactFound, isDar
   }
 
   return !inline && match ? (
-    <div className="my-2 rounded-md bg-gray-100 p-2 font-mono text-xs overflow-x-auto">
-      <code>{children}</code>
+    <div className="my-2 rounded-md bg-gray-100 dark:bg-[#1E1E1E] p-2 font-mono text-xs overflow-x-auto border border-gray-200 dark:border-[#333]">
+      <code className="text-gray-800 dark:text-gray-200">{children}</code>
     </div>
   ) : (
-    <code className={`${className} bg-gray-100 px-1 py-0.5 rounded text-sm font-mono text-[#E45649]`}>
+    <code className={`${className} bg-gray-100 dark:bg-[#2A2A2A] px-1.5 py-0.5 rounded text-sm font-mono text-[#E45649] dark:text-[#CE9178] border border-gray-200 dark:border-transparent`}>
       {children}
     </code>
   );
