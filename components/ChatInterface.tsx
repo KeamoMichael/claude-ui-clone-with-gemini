@@ -299,6 +299,9 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ user, onChatStart, onArti
   const toolsMenuRef = useRef<HTMLDivElement>(null);
   const modelMenuRef = useRef<HTMLDivElement>(null);
   const titleMenuRef = useRef<HTMLDivElement>(null);
+  const toolsButtonRef = useRef<HTMLButtonElement>(null);
+  const modelButtonRef = useRef<HTMLButtonElement>(null);
+  const titleButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     if (textareaRef.current) {
@@ -313,14 +316,29 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ user, onChatStart, onArti
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
-      if (toolsMenuRef.current && !toolsMenuRef.current.contains(event.target as Node)) {
+      if (
+        toolsMenuRef.current &&
+        !toolsMenuRef.current.contains(event.target as Node) &&
+        toolsButtonRef.current &&
+        !toolsButtonRef.current.contains(event.target as Node)
+      ) {
         setShowToolsMenu(false);
         setToolsMenuView('main');
       }
-      if (modelMenuRef.current && !modelMenuRef.current.contains(event.target as Node)) {
+      if (
+        modelMenuRef.current &&
+        !modelMenuRef.current.contains(event.target as Node) &&
+        modelButtonRef.current &&
+        !modelButtonRef.current.contains(event.target as Node)
+      ) {
         setShowModelMenu(false);
       }
-      if (titleMenuRef.current && !titleMenuRef.current.contains(event.target as Node)) {
+      if (
+        titleMenuRef.current &&
+        !titleMenuRef.current.contains(event.target as Node) &&
+        titleButtonRef.current &&
+        !titleButtonRef.current.contains(event.target as Node)
+      ) {
         setShowTitleMenu(false);
       }
     }
@@ -534,6 +552,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ user, onChatStart, onArti
               <div className="relative">
                 <Tooltip content="Search and tools">
                   <button
+                    ref={toolsButtonRef}
                     onClick={(e) => {
                       e.stopPropagation();
                       setShowToolsMenu(!showToolsMenu);
@@ -650,6 +669,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ user, onChatStart, onArti
               <div className="relative">
                 <Tooltip content="Select model">
                   <button
+                    ref={modelButtonRef}
                     onClick={(e) => { e.stopPropagation(); setShowModelMenu(!showModelMenu); }}
                     className={`text-xs font-medium flex items-center gap-1 cursor-pointer bg-white dark:bg-[#2A2A2A] hover:bg-gray-50 dark:hover:bg-[#333] px-3 py-1.5 rounded-full transition-colors border border-gray-200 dark:border-gray-700 shadow-sm text-gray-700 dark:text-gray-200 ${showModelMenu ? 'ring-2 ring-blue-500/20' : ''}`}
                   >
@@ -718,6 +738,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ user, onChatStart, onArti
         <div className={`h-14 flex items-center justify-between px-4 border-b border-transparent z-30 bg-claude-bg/95 backdrop-blur-sm sticky top-0 transition-all pl-4`}>
           <div className="relative">
             <button
+              ref={titleButtonRef}
               onClick={() => setShowTitleMenu(!showTitleMenu)}
               className={`flex items-center gap-1.5 px-2 py-1.5 rounded-lg hover:bg-gray-200/50 transition-colors text-claude-text font-medium text-sm ${showTitleMenu ? 'bg-gray-200/50' : ''}`}
             >
