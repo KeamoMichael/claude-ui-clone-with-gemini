@@ -16,13 +16,13 @@ import {
   ChevronUp
 } from 'lucide-react';
 import { User, ChatSession } from '../types';
+import NexaStar from '../Assets/Nexa-Star.png';
 
 interface SidebarProps {
   isOpen: boolean;
   toggleSidebar: () => void;
   startNewChat: () => void;
   user: User;
-  recentChats: ChatSession[];
   recentChats: ChatSession[];
   onLoadChat?: (chatId: string) => void;
   onOpenSettings?: () => void;
@@ -60,8 +60,10 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, startNewChat, 
               className={`
                   font-serif text-lg font-semibold text-claude-text select-none
                   transition-opacity duration-300 delay-100 opacity-100
+                  flex items-center gap-2
                 `}
             >
+              <img src={NexaStar} alt="" className="w-5 h-5" />
               Nexa
             </div>
           )}
