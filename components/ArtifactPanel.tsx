@@ -8,6 +8,7 @@ interface ArtifactPanelProps {
   isOpen: boolean;
   artifact: Artifact | null;
   onClose: () => void;
+  onClose: () => void;
   style?: React.CSSProperties;
   isDarkMode?: boolean;
 }
@@ -17,10 +18,14 @@ const ArtifactPanel: React.FC<ArtifactPanelProps> = ({ isOpen, artifact, onClose
 
   if (!isOpen || !artifact) return null;
 
-  const handleCopy = () => {
-    navigator.clipboard.writeText(artifact.content);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(artifact.content);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      console.error('Failed to copy:', err);
+    }
   };
 
   return (
@@ -39,6 +44,7 @@ const ArtifactPanel: React.FC<ArtifactPanelProps> = ({ isOpen, artifact, onClose
 
         <div className="flex items-center gap-2">
           <button
+            type="button"
             onClick={handleCopy}
             className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-md hover:bg-gray-100 dark:hover:bg-[#333] text-xs font-medium text-gray-600 dark:text-gray-300 transition-colors border border-transparent hover:border-gray-200 dark:hover:border-gray-700"
           >

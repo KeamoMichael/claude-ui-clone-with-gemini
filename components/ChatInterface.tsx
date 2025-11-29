@@ -112,11 +112,15 @@ const CodeBlockRenderer = ({ inline, className, children, onArtifactFound, isDar
     const [isExpanded, setIsExpanded] = useState(false);
     const [isCopied, setIsCopied] = useState(false);
 
-    const handleCopy = (e: React.MouseEvent) => {
+    const handleCopy = async (e: React.MouseEvent) => {
       e.stopPropagation();
-      navigator.clipboard.writeText(code);
-      setIsCopied(true);
-      setTimeout(() => setIsCopied(false), 2000);
+      try {
+        await navigator.clipboard.writeText(code);
+        setIsCopied(true);
+        setTimeout(() => setIsCopied(false), 2000);
+      } catch (err) {
+        console.error('Failed to copy:', err);
+      }
     };
 
     // Render the "Preview Card"
@@ -134,6 +138,7 @@ const CodeBlockRenderer = ({ inline, className, children, onArtifactFound, isDar
           </div>
           <div className="flex items-center gap-2">
             <button
+              type="button"
               onClick={handleCopy}
               className="flex items-center gap-1.5 px-2 py-1 rounded-md hover:bg-gray-200 dark:hover:bg-white/10 text-xs font-medium text-gray-500 dark:text-gray-400 transition-colors"
             >
@@ -154,7 +159,6 @@ const CodeBlockRenderer = ({ inline, className, children, onArtifactFound, isDar
               lineHeight: '1.5',
               fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace',
             }}
-            wrapLongLines={true}
           >
             {code}
           </SyntaxHighlighter>
@@ -578,7 +582,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ user, onChatStart, onArti
           <div className="flex items-center justify-between mt-2 select-none">
             <div className="flex items-center gap-1">
               <Tooltip content="Attach artifacts">
-                <button className="p-2 rounded-xl hover:bg-gray-100 dark:hover:bg-white/10 text-gray-500 dark:text-gray-400 transition-colors">
+                <button className="p-2 bg-white dark:bg-[#2A2A2A] rounded-xl hover:bg-gray-50 dark:hover:bg-[#333] text-gray-900 dark:text-gray-100 transition-colors shadow-sm border border-gray-200 dark:border-gray-700">
                   <Plus size={18} strokeWidth={2.5} />
                 </button>
               </Tooltip>
@@ -601,26 +605,26 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ user, onChatStart, onArti
                 {showToolsMenu && (
                   <div
                     ref={toolsMenuRef}
-                    className={`absolute left-0 w-[280px] bg-white dark:bg-[#1F1F1F] rounded-xl shadow-xl border border-gray-100 dark:border-gray-800 py-1.5 z-[100] animate-in fade-in zoom-in-95 duration-100 origin-top-left ${menuPositionClass}`}
+                    className={`absolute left-0 w-[280px] bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-gray-100 dark:border-gray-700 py-1.5 z-[100] animate-in fade-in zoom-in-95 duration-100 origin-top-left ${menuPositionClass}`}
                   >
                     {toolsMenuView === 'main' ? (
                       <>
                         <button
                           onClick={() => setToolsMenuView('styles')}
-                          className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-gray-50 dark:hover:bg-white/5 text-left text-[13px] text-gray-700 dark:text-gray-200 transition-colors group"
+                          className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-gray-50 text-left text-[13px] text-gray-700 transition-colors group"
                         >
                           <div className="flex items-center gap-3">
-                            <PenTool size={16} className="text-gray-500 dark:text-gray-400 group-hover:text-gray-700 dark:group-hover:text-gray-200" />
+                            <PenTool size={16} className="text-gray-500 group-hover:text-gray-700" />
                             <span>Use style</span>
                           </div>
                           <ChevronDown size={14} className="text-gray-400 -rotate-90" />
                         </button>
 
-                        <div className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-gray-50 dark:hover:bg-white/5 cursor-pointer text-[13px] text-gray-700 dark:text-gray-200 transition-colors group" onClick={() => setUseExtendedThinking(!useExtendedThinking)}>
+                        <div className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-gray-50 cursor-pointer text-[13px] text-gray-700 transition-colors group" onClick={() => setUseExtendedThinking(!useExtendedThinking)}>
                           <div className="flex items-center gap-3">
-                            <Timer size={16} className="text-gray-500 dark:text-gray-400 group-hover:text-gray-700 dark:group-hover:text-gray-200" />
+                            <Timer size={16} className="text-gray-500 group-hover:text-gray-700" />
                             <div>
-                              <div className="leading-none font-medium text-gray-700 dark:text-gray-200">Extended thinking</div>
+                              <div className="leading-none font-medium text-gray-700">Extended thinking</div>
                               {useExtendedThinking && <div className="text-[10px] text-gray-400 mt-0.5 font-normal">3 remaining until Dec 5</div>}
                             </div>
                           </div>
@@ -629,26 +633,26 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ user, onChatStart, onArti
                           </div>
                         </div>
 
-                        <div className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-gray-50 dark:hover:bg-white/5 cursor-pointer text-[13px] text-gray-700 dark:text-gray-200 transition-colors group" onClick={() => setUseWebSearch(!useWebSearch)}>
+                        <div className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-gray-50 cursor-pointer text-[13px] text-gray-700 transition-colors group" onClick={() => setUseWebSearch(!useWebSearch)}>
                           <div className="flex items-center gap-3">
-                            <Globe size={16} className="text-gray-500 dark:text-gray-400 group-hover:text-gray-700 dark:group-hover:text-gray-200" />
-                            <span className="font-medium text-gray-700 dark:text-gray-200">Web search</span>
+                            <Globe size={16} className="text-gray-500 group-hover:text-gray-700" />
+                            <span className="font-medium text-gray-700">Web search</span>
                           </div>
                           <div className={`w-9 h-5 rounded-full relative transition-colors duration-200 ${useWebSearch ? 'bg-[#0F62FE]' : 'bg-gray-200'}`}>
                             <div className={`absolute top-0.5 w-4 h-4 bg-white rounded-full transition-all duration-200 shadow-sm ${useWebSearch ? 'left-[18px]' : 'left-0.5'}`} />
                           </div>
                         </div>
 
-                        <div className="h-px bg-gray-100 dark:bg-white/10 my-1 mx-3" />
+                        <div className="h-px bg-gray-100 my-1 mx-3" />
 
-                        <button className="w-full flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 dark:hover:bg-white/5 text-left text-[13px] text-gray-700 dark:text-gray-200 transition-colors group">
-                          <Plus size={16} className="text-gray-500 dark:text-gray-400 group-hover:text-gray-700 dark:group-hover:text-gray-200" />
+                        <button className="w-full flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 text-left text-[13px] text-gray-700 transition-colors group">
+                          <Plus size={16} className="text-gray-500 group-hover:text-gray-700" />
                           <span>Add connectors</span>
                           <span className="text-[9px] bg-blue-50 text-blue-600 px-1.5 py-0.5 rounded font-medium border border-blue-100 ml-auto">PRO</span>
                         </button>
 
-                        <button className="w-full flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 dark:hover:bg-white/5 text-left text-[13px] text-gray-700 dark:text-gray-200 transition-colors group">
-                          <Settings size={16} className="text-gray-500 dark:text-gray-400 group-hover:text-gray-700 dark:group-hover:text-gray-200" />
+                        <button className="w-full flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 text-left text-[13px] text-gray-700 transition-colors group">
+                          <Settings size={16} className="text-gray-500 group-hover:text-gray-700" />
                           <span>Manage connectors</span>
                         </button>
                       </>
@@ -657,9 +661,9 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ user, onChatStart, onArti
                         <div className="px-1 py-1">
                           <button
                             onClick={() => setToolsMenuView('main')}
-                            className="w-full flex items-center gap-2 px-2 py-1.5 hover:bg-gray-100 dark:hover:bg-white/10 rounded-lg text-[13px] font-medium text-gray-600 dark:text-gray-300 transition-colors bg-gray-50 dark:bg-white/5 mb-1"
+                            className="w-full flex items-center gap-2 px-2 py-1.5 hover:bg-gray-100 rounded-lg text-[13px] font-medium text-gray-600 transition-colors bg-gray-50 mb-1"
                           >
-                            <ArrowLeft size={14} className="text-gray-500 dark:text-gray-400" />
+                            <ArrowLeft size={14} className="text-gray-500" />
                             <span>Use style</span>
                           </button>
                         </div>
@@ -668,10 +672,10 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ user, onChatStart, onArti
                           <button
                             key={style}
                             onClick={() => setSelectedStyle(style)}
-                            className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-gray-50 dark:hover:bg-white/5 text-left text-[13px] text-gray-700 dark:text-gray-200 transition-colors group"
+                            className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-gray-50 text-left text-[13px] text-gray-700 transition-colors group"
                           >
                             <div className="flex items-center gap-3">
-                              <PenTool size={16} className="text-gray-500 dark:text-gray-400 group-hover:text-gray-700 dark:group-hover:text-gray-200" />
+                              <PenTool size={16} className="text-gray-500 group-hover:text-gray-700" />
                               <span>{style}</span>
                             </div>
                             {selectedStyle === style && (
@@ -680,10 +684,10 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ user, onChatStart, onArti
                           </button>
                         ))}
 
-                        <div className="h-px bg-gray-100 dark:bg-white/10 my-1 mx-3" />
+                        <div className="h-px bg-gray-100 my-1 mx-3" />
 
-                        <button className="w-full flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 dark:hover:bg-white/5 text-left text-[13px] text-gray-700 dark:text-gray-200 transition-colors group">
-                          <Plus size={16} className="text-gray-500 dark:text-gray-400 group-hover:text-gray-700 dark:group-hover:text-gray-200" />
+                        <button className="w-full flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 text-left text-[13px] text-gray-700 transition-colors group">
+                          <Plus size={16} className="text-gray-500 group-hover:text-gray-700" />
                           <span>Create & edit styles</span>
                         </button>
                       </>
@@ -693,7 +697,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ user, onChatStart, onArti
               </div>
 
               <Tooltip content="Recent chats">
-                <button className="p-2 rounded-xl hover:bg-gray-100 dark:hover:bg-white/10 text-gray-500 dark:text-gray-400 transition-colors">
+                <button className="p-2 bg-white dark:bg-[#2A2A2A] rounded-xl hover:bg-gray-50 dark:hover:bg-[#333] text-gray-900 dark:text-gray-100 transition-colors shadow-sm border border-gray-200 dark:border-gray-700">
                   <History size={18} strokeWidth={2.5} />
                 </button>
               </Tooltip>
@@ -705,7 +709,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ user, onChatStart, onArti
                   <button
                     ref={modelButtonRef}
                     onClick={(e) => { e.stopPropagation(); setShowModelMenu(!showModelMenu); }}
-                    className={`text-xs font-medium flex items-center gap-1 cursor-pointer hover:bg-gray-100 dark:hover:bg-white/10 px-3 py-1.5 rounded-lg transition-colors text-gray-500 dark:text-gray-400 ${showModelMenu ? 'bg-gray-100 dark:bg-white/10 text-gray-800 dark:text-gray-200' : ''}`}
+                    className={`text-xs font-medium flex items-center gap-1 cursor-pointer bg-white dark:bg-[#2A2A2A] hover:bg-gray-50 dark:hover:bg-[#333] px-3 py-1.5 rounded-full transition-colors border border-gray-200 dark:border-gray-700 shadow-sm text-gray-700 dark:text-gray-200 ${showModelMenu ? 'ring-2 ring-blue-500/20' : ''}`}
                   >
                     <span>{getModelName(selectedModel)}</span>
                     <ChevronDown size={12} strokeWidth={2.5} className="text-gray-400" />
@@ -769,12 +773,12 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ user, onChatStart, onArti
 
       {/* Sticky Header for Active Chat */}
       {hasMessages && (
-        <div className={`h-14 flex items-center justify-between px-4 border-b border-transparent dark:border-transparent z-30 bg-claude-bg/95 backdrop-blur-sm sticky top-0 transition-all pl-4`}>
+        <div className={`h-14 flex items-center justify-between px-4 border-b border-transparent z-30 bg-claude-bg/95 backdrop-blur-sm sticky top-0 transition-all pl-4`}>
           <div className="relative">
             <button
               ref={titleButtonRef}
               onClick={() => setShowTitleMenu(!showTitleMenu)}
-              className={`flex items-center gap-1.5 px-2 py-1.5 rounded-lg hover:bg-gray-200/50 dark:hover:bg-[#333] transition-colors text-claude-text font-medium text-sm ${showTitleMenu ? 'bg-gray-200/50 dark:bg-[#333]' : ''}`}
+              className={`flex items-center gap-1.5 px-2 py-1.5 rounded-lg hover:bg-gray-200/50 transition-colors text-claude-text font-medium text-sm ${showTitleMenu ? 'bg-gray-200/50' : ''}`}
             >
               <span className="max-w-[200px] truncate">{chatTitle}</span>
               <ChevronDown size={14} className="text-gray-400 shrink-0" />
@@ -784,24 +788,24 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ user, onChatStart, onArti
             {showTitleMenu && (
               <div
                 ref={titleMenuRef}
-                className="absolute top-full left-0 mt-1 w-[200px] bg-white dark:bg-[#1F1F1F] rounded-xl shadow-xl border border-gray-100 dark:border-gray-800 py-1.5 z-[100] animate-in fade-in zoom-in-95 duration-100 origin-top-left"
+                className="absolute top-full left-0 mt-1 w-[200px] bg-white rounded-xl shadow-xl border border-gray-100 py-1.5 z-[100] animate-in fade-in zoom-in-95 duration-100 origin-top-left"
               >
-                <button className="w-full flex items-center gap-3 px-3 py-2 hover:bg-gray-50 dark:hover:bg-[#2A2A2A] text-left text-[13px] text-gray-700 dark:text-gray-200 transition-colors group">
-                  <Star size={16} className="text-gray-500 dark:text-gray-400 group-hover:text-gray-700 dark:group-hover:text-gray-200" />
+                <button className="w-full flex items-center gap-3 px-3 py-2 hover:bg-gray-50 text-left text-[13px] text-gray-700 transition-colors">
+                  <Star size={16} className="text-gray-500" />
                   <span>Star</span>
                 </button>
-                <button className="w-full flex items-center gap-3 px-3 py-2 hover:bg-gray-50 dark:hover:bg-[#2A2A2A] text-left text-[13px] text-gray-700 dark:text-gray-200 transition-colors group">
-                  <Pencil size={16} className="text-gray-500 dark:text-gray-400 group-hover:text-gray-700 dark:group-hover:text-gray-200" />
+                <button className="w-full flex items-center gap-3 px-3 py-2 hover:bg-gray-50 text-left text-[13px] text-gray-700 transition-colors">
+                  <Pencil size={16} className="text-gray-500" />
                   <span>Rename</span>
                 </button>
-                <button className="w-full flex items-center gap-3 px-3 py-2 hover:bg-gray-50 dark:hover:bg-[#2A2A2A] text-left text-[13px] text-gray-700 dark:text-gray-200 transition-colors group">
-                  <FolderPlus size={16} className="text-gray-500 dark:text-gray-400 group-hover:text-gray-700 dark:group-hover:text-gray-200" />
+                <button className="w-full flex items-center gap-3 px-3 py-2 hover:bg-gray-50 text-left text-[13px] text-gray-700 transition-colors">
+                  <FolderPlus size={16} className="text-gray-500" />
                   <span>Add to project</span>
                 </button>
 
-                <div className="h-px bg-gray-100 dark:bg-white/10 my-1 mx-3" />
+                <div className="h-px bg-gray-100 my-1 mx-3" />
 
-                <button className="w-full flex items-center gap-3 px-3 py-2 hover:bg-gray-50 dark:hover:bg-[#2A2A2A] text-left text-[13px] text-[#B94A48] transition-colors group">
+                <button className="w-full flex items-center gap-3 px-3 py-2 hover:bg-gray-50 text-left text-[13px] text-[#B94A48] transition-colors">
                   <Trash2 size={16} className="text-[#B94A48]" />
                   <span>Delete</span>
                 </button>
@@ -809,7 +813,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ user, onChatStart, onArti
             )}
           </div>
 
-          <button className="px-3 py-1.5 rounded-lg border border-[#E5E2DA] dark:border-transparent hover:bg-gray-50 dark:hover:bg-white text-xs font-medium text-gray-600 dark:text-black dark:bg-white transition-colors">
+          <button className="px-3 py-1.5 rounded-lg border border-[#E5E2DA] hover:bg-gray-50 text-xs font-medium text-gray-600 transition-colors">
             Share
           </button>
         </div>
