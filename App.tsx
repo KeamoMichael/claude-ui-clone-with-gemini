@@ -182,6 +182,18 @@ const App: React.FC = () => {
     // View switch is handled by onAuthStateChange
   };
 
+  useEffect(() => {
+    const root = window.document.documentElement;
+    root.classList.remove('dark', 'light');
+
+    if (settings.theme === 'match') {
+      const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      root.classList.add(systemTheme);
+    } else {
+      root.classList.add(settings.theme);
+    }
+  }, [settings.theme]);
+
   const handleUpdateSettings = (newSettings: Partial<AppSettings>) => {
     setSettings(prev => ({ ...prev, ...newSettings }));
   };
@@ -189,7 +201,7 @@ const App: React.FC = () => {
   // Font Class Map
   const fontClass = {
     'default': 'font-serif',
-    'match': 'font-sans',
+    'manrope': 'font-manrope',
     'dyslexic': 'font-mono' // using mono as proxy for dyslexic for now, or could be a specific class
   }[settings.font];
 

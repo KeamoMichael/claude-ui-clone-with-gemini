@@ -66,7 +66,7 @@ export interface Artifact {
 
 export interface AppSettings {
   theme: 'light' | 'match' | 'dark';
-  font: 'default' | 'match' | 'dyslexic';
+  font: 'default' | 'manrope' | 'dyslexic';
   notifications: boolean;
   userName: string;
   displayName: string;

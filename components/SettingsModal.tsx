@@ -212,13 +212,13 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose, user, se
                                         </button>
 
                                         <button
-                                            onClick={() => onUpdateSettings({ font: 'match' })}
-                                            className={`group relative p-1 rounded-xl border transition-all ${settings.font === 'match' ? 'border-[#3B82F6] ring-1 ring-[#3B82F6]' : 'border-gray-200 hover:border-gray-300'}`}
+                                            onClick={() => onUpdateSettings({ font: 'manrope' })}
+                                            className={`group relative p-1 rounded-xl border transition-all ${settings.font === 'manrope' ? 'border-[#3B82F6] ring-1 ring-[#3B82F6]' : 'border-gray-200 hover:border-gray-300'}`}
                                         >
                                             <div className="bg-white rounded-lg h-16 flex items-center justify-center">
-                                                <span className="text-xl font-sans text-[#333333]">Aa</span>
+                                                <span className="text-xl font-manrope text-[#333333]">Aa</span>
                                             </div>
-                                            <span className="block text-center text-[11px] font-medium text-gray-600 mt-2 mb-1">Match system</span>
+                                            <span className="block text-center text-[11px] font-medium text-gray-600 mt-2 mb-1">Manrope</span>
                                         </button>
 
                                         <button
