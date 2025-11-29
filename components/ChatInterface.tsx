@@ -526,7 +526,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ user, onChatStart, onArti
           <div className="flex items-center justify-between mt-2 select-none">
             <div className="flex items-center gap-1">
               <Tooltip content="Attach artifacts">
-                <button className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-500 transition-colors">
+                <button className="p-2 bg-white dark:bg-[#2A2A2A] rounded-xl hover:bg-gray-50 dark:hover:bg-[#333] text-gray-900 dark:text-gray-100 transition-colors shadow-sm border border-gray-200 dark:border-gray-700">
                   <Plus size={18} strokeWidth={2.5} />
                 </button>
               </Tooltip>
@@ -640,8 +640,8 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ user, onChatStart, onArti
               </div>
 
               <Tooltip content="Recent chats">
-                <button className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-500 transition-colors">
-                  <History size={16} />
+                <button className="p-2 bg-white dark:bg-[#2A2A2A] rounded-xl hover:bg-gray-50 dark:hover:bg-[#333] text-gray-900 dark:text-gray-100 transition-colors shadow-sm border border-gray-200 dark:border-gray-700">
+                  <History size={18} strokeWidth={2.5} />
                 </button>
               </Tooltip>
             </div>
@@ -651,7 +651,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ user, onChatStart, onArti
                 <Tooltip content="Select model">
                   <button
                     onClick={(e) => { e.stopPropagation(); setShowModelMenu(!showModelMenu); }}
-                    className={`text-xs text-gray-500 font-medium flex items-center gap-1 cursor-pointer hover:bg-gray-100 px-2 py-1 rounded-lg transition-colors ${showModelMenu ? 'bg-gray-100 text-gray-800' : ''}`}
+                    className={`text-xs font-medium flex items-center gap-1 cursor-pointer bg-white dark:bg-[#2A2A2A] hover:bg-gray-50 dark:hover:bg-[#333] px-3 py-1.5 rounded-full transition-colors border border-gray-200 dark:border-gray-700 shadow-sm text-gray-700 dark:text-gray-200 ${showModelMenu ? 'ring-2 ring-blue-500/20' : ''}`}
                   >
                     <span>{getModelName(selectedModel)}</span>
                     <ChevronDown size={12} strokeWidth={2.5} className="text-gray-400" />
@@ -865,15 +865,15 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ user, onChatStart, onArti
         {!hasMessages && (
           <div className="min-h-full flex flex-col items-center pt-64 px-4 pb-20">
             <div className="mb-12">
-              <div className="bg-[#E2E2E2] px-3 py-1.5 rounded-md text-[11px] font-medium text-gray-500 border border-transparent">
-                Free plan · <span className="underline decoration-gray-400/50 cursor-pointer">Upgrade</span>
+              <div className="bg-[#E2E2E2] dark:bg-[#2A2A2A] px-3 py-1.5 rounded-lg text-[11px] font-medium text-gray-600 dark:text-gray-300 border border-transparent">
+                Free plan · <span className="underline decoration-gray-400/50 cursor-pointer hover:text-gray-900 dark:hover:text-white transition-colors">Upgrade</span>
               </div>
             </div>
 
             <div className="flex items-center gap-3 mb-8">
               <NexaIcon className="w-8 h-8" isGreeting={true} />
               <motion.h1
-                className="font-serif text-[32px] text-[#2D2D2D] tracking-tight flex"
+                className="font-serif text-[32px] text-[#2D2D2D] dark:text-[#E5E5E5] tracking-tight flex"
                 initial="hidden"
                 animate="visible"
                 variants={{
