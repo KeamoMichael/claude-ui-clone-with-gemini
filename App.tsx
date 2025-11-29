@@ -182,9 +182,22 @@ const App: React.FC = () => {
     // View switch is handled by onAuthStateChange
   };
 
+  // Calculate isDarkMode
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
   useEffect(() => {
     const root = window.document.documentElement;
     root.classList.remove('dark', 'light');
+
+    const checkDarkMode = () => {
+      if (settings.theme === 'match') {
+        return window.matchMedia('(prefers-color-scheme: dark)').matches;
+      }
+      return settings.theme === 'dark';
+    };
+
+    const darkMode = checkDarkMode();
+    setIsDarkMode(darkMode);
 
     if (settings.theme === 'match') {
       const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
@@ -217,8 +230,6 @@ const App: React.FC = () => {
         user={currentUser}
         startNewChat={startNewChat}
         recentChats={recentChats}
-        startNewChat={startNewChat}
-        recentChats={recentChats}
         onLoadChat={loadChat}
         onOpenSettings={() => setIsSettingsOpen(true)}
       />
@@ -245,6 +256,7 @@ const App: React.FC = () => {
             isSidebarOpen={isSidebarOpen}
             toggleSidebar={toggleSidebar}
             initialMessages={initialMessages}
+            isDarkMode={isDarkMode}
           />
         </div>
 
@@ -263,6 +275,7 @@ const App: React.FC = () => {
                 isOpen={isArtifactOpen}
                 artifact={currentArtifact}
                 onClose={handleArtifactClose}
+                isDarkMode={isDarkMode}
               />
             </div>
           </>

@@ -27,7 +27,7 @@ import {
 } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { oneLight } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import { oneLight, vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { GeminiModel, Message, Artifact, SearchResult, SearchStatus, FetchedUrl } from '../types';
 import { streamMessage, streamMessageWithSearch } from '../services/geminiService';
 import { performWebSearch, fetchUrlContent, shouldPerformWebSearch } from '../services/searchService';
@@ -40,6 +40,7 @@ interface ChatInterfaceProps {
   isSidebarOpen: boolean;
   toggleSidebar: () => void;
   initialMessages?: Message[];
+  isDarkMode?: boolean;
 }
 
 import NexaStar from '../Assets/Nexa-Star02.png';
@@ -89,7 +90,7 @@ const Tooltip: React.FC<TooltipProps> = ({ content, children }) => {
 };
 
 // Component to render code blocks as Artifact Cards
-const CodeBlockRenderer = ({ inline, className, children, onArtifactFound }: any) => {
+const CodeBlockRenderer = ({ inline, className, children, onArtifactFound, isDarkMode }: any) => {
   const match = /language-(\w+)/.exec(className || '');
   const language = match ? match[1] : '';
   const code = String(children).replace(/\n$/, '');
@@ -110,29 +111,29 @@ const CodeBlockRenderer = ({ inline, className, children, onArtifactFound }: any
 
     // Render the "Preview Card"
     return (
-      <div className="my-3 border border-[#E5E2DA] rounded-xl bg-white overflow-hidden shadow-sm hover:shadow-md transition-shadow cursor-pointer group">
-        <div className="px-4 py-3 bg-[#FAFAF8] border-b border-[#E5E2DA] flex items-center justify-between">
+      <div className="my-3 border border-[#E5E2DA] dark:border-[#333] rounded-xl bg-white dark:bg-[#1E1E1E] overflow-hidden shadow-sm hover:shadow-md transition-shadow cursor-pointer group">
+        <div className="px-4 py-3 bg-[#FAFAF8] dark:bg-[#2A2A2A] border-b border-[#E5E2DA] dark:border-[#333] flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center border border-gray-200">
-              <Code size={16} className="text-gray-600" />
+            <div className="w-8 h-8 rounded-lg bg-gray-100 dark:bg-[#333] flex items-center justify-center border border-gray-200 dark:border-gray-700">
+              <Code size={16} className="text-gray-600 dark:text-gray-400" />
             </div>
             <div>
-              <div className="text-sm font-medium text-gray-800">Generated Code</div>
-              <div className="text-xs text-gray-500 capitalize">{language}</div>
+              <div className="text-sm font-medium text-gray-800 dark:text-gray-200">Generated Code</div>
+              <div className="text-xs text-gray-500 dark:text-gray-400 capitalize">{language}</div>
             </div>
           </div>
-          <div className="text-xs font-medium text-claude-accent opacity-0 group-hover:opacity-100 transition-opacity">
+          <div className="text-xs font-medium text-claude-accent dark:text-white opacity-0 group-hover:opacity-100 transition-opacity">
             View Code
           </div>
         </div>
-        <div className="bg-white max-h-32 overflow-hidden relative">
+        <div className="bg-white dark:bg-[#1E1E1E] max-h-32 overflow-hidden relative">
           <SyntaxHighlighter
             language={language}
-            style={oneLight}
+            style={isDarkMode ? vscDarkPlus : oneLight}
             customStyle={{
               margin: 0,
               padding: '12px',
-              background: 'white',
+              background: isDarkMode ? '#1E1E1E' : 'white',
               fontSize: '12px',
               lineHeight: '1.5',
               fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace',
@@ -141,7 +142,7 @@ const CodeBlockRenderer = ({ inline, className, children, onArtifactFound }: any
           >
             {code}
           </SyntaxHighlighter>
-          <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-white to-transparent pointer-events-none" />
+          <div className={`absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t ${isDarkMode ? 'from-[#1E1E1E]' : 'from-white'} to-transparent pointer-events-none`} />
         </div>
       </div>
     );
@@ -278,7 +279,7 @@ const FetchedContentCard: React.FC<FetchedContentCardProps> = ({ fetchedUrls }) 
 };
 
 
-const ChatInterface: React.FC<ChatInterfaceProps> = ({ user, onChatStart, onArtifactOpen, isArtifactOpen, isSidebarOpen, toggleSidebar, initialMessages }) => {
+const ChatInterface: React.FC<ChatInterfaceProps> = ({ user, onChatStart, onArtifactOpen, isArtifactOpen, isSidebarOpen, toggleSidebar, initialMessages, isDarkMode }) => {
   const [input, setInput] = useState('');
   const [messages, setMessages] = useState<Message[]>(initialMessages || []);
   const [isTyping, setIsTyping] = useState(false);
@@ -349,18 +350,18 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ user, onChatStart, onArti
   const handleSend = async () => {
     if (!input.trim() || isTyping) return;
 
-    if (messages.length === 0) {
-      const newTitle = input.split(' ').slice(0, 5).join(' ') + (input.split(' ').length > 5 ? '...' : '');
-      setChatTitle(newTitle);
-      onChatStart(newTitle);
-    }
-
     const userMessage: Message = {
       id: Date.now().toString(),
       role: 'user',
       content: input,
       timestamp: Date.now()
     };
+
+    if (messages.length === 0) {
+      const newTitle = input.split(' ').slice(0, 5).join(' ') + (input.split(' ').length > 5 ? '...' : '');
+      setChatTitle(newTitle);
+      onChatStart(newTitle, [userMessage]);
+    }
 
     setMessages(prev => [...prev, userMessage]);
     setInput('');
@@ -775,7 +776,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ user, onChatStart, onArti
             )}
           </div>
 
-          <button className="px-3 py-1.5 rounded-lg border border-[#E5E2DA] hover:bg-gray-50 text-xs font-medium text-gray-600 transition-colors">
+          <button className="px-3 py-1.5 rounded-lg border border-[#E5E2DA] dark:border-transparent hover:bg-gray-50 dark:hover:bg-white text-xs font-medium text-gray-600 dark:text-black dark:bg-white transition-colors">
             Share
           </button>
         </div>
@@ -794,8 +795,12 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ user, onChatStart, onArti
                         {user.name.charAt(0)}
                       </div>
                       <div className="bg-[#F0EFEA] dark:bg-[#2A2A2A] text-claude-text px-4 py-2.5 rounded-2xl max-w-[85%] text-[15px] leading-relaxed">
-                        <div className="prose prose-stone prose-sm max-w-none text-claude-text">
-                          <ReactMarkdown>
+                        <div className="prose prose-stone prose-sm max-w-none text-claude-text dark:text-gray-300">
+                          <ReactMarkdown
+                            components={{
+                              code: (props) => <CodeBlockRenderer {...props} onArtifactFound={onArtifactOpen} isDarkMode={isDarkMode} />
+                            }}
+                          >
                             {msg.content}
                           </ReactMarkdown>
                         </div>

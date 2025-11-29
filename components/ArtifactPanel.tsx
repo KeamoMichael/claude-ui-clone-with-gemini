@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { X, Copy, Share, Check, Terminal } from 'lucide-react';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { oneLight } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import { oneLight, vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { Artifact } from '../types';
 
 interface ArtifactPanelProps {
@@ -9,9 +9,10 @@ interface ArtifactPanelProps {
   artifact: Artifact | null;
   onClose: () => void;
   style?: React.CSSProperties;
+  isDarkMode?: boolean;
 }
 
-const ArtifactPanel: React.FC<ArtifactPanelProps> = ({ isOpen, artifact, onClose, style }) => {
+const ArtifactPanel: React.FC<ArtifactPanelProps> = ({ isOpen, artifact, onClose, style, isDarkMode }) => {
   const [copied, setCopied] = useState(false);
 
   if (!isOpen || !artifact) return null;
@@ -24,34 +25,34 @@ const ArtifactPanel: React.FC<ArtifactPanelProps> = ({ isOpen, artifact, onClose
 
   return (
     <div
-      className="h-full bg-white border-l border-[#E5E2DA] shadow-sm z-10 flex flex-col overflow-hidden"
+      className="h-full bg-white dark:bg-[#1A1A1A] border-l border-[#E5E2DA] dark:border-[#333] shadow-sm z-10 flex flex-col overflow-hidden"
       style={style}
     >
       {/* Header */}
-      <div className="h-12 border-b border-[#E5E2DA] flex items-center justify-between px-4 bg-[#FAFAF8] shrink-0">
-        <div className="flex items-center gap-2 text-sm text-gray-500">
-          <span className="font-mono text-xs uppercase bg-gray-100 px-1.5 py-0.5 rounded border border-gray-200">
+      <div className="h-12 border-b border-[#E5E2DA] dark:border-[#333] flex items-center justify-between px-4 bg-[#FAFAF8] dark:bg-[#2A2A2A] shrink-0">
+        <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
+          <span className="font-mono text-xs uppercase bg-gray-100 dark:bg-[#333] px-1.5 py-0.5 rounded border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300">
             {artifact.language || 'TEXT'}
           </span>
-          <span className="truncate max-w-[200px] font-medium text-gray-700">{artifact.title}</span>
+          <span className="truncate max-w-[200px] font-medium text-gray-700 dark:text-gray-200">{artifact.title}</span>
         </div>
 
         <div className="flex items-center gap-2">
           <button
             onClick={handleCopy}
-            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-md hover:bg-gray-100 text-xs font-medium text-gray-600 transition-colors border border-transparent hover:border-gray-200"
+            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-md hover:bg-gray-100 dark:hover:bg-[#333] text-xs font-medium text-gray-600 dark:text-gray-300 transition-colors border border-transparent hover:border-gray-200 dark:hover:border-gray-700"
           >
-            {copied ? <Check size={14} className="text-green-600" /> : <Copy size={14} />}
+            {copied ? <Check size={14} className="text-green-600 dark:text-green-400" /> : <Copy size={14} />}
             {copied ? 'Copied' : 'Copy'}
           </button>
 
-          <button className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-md bg-claude-text text-white text-xs font-medium hover:bg-black transition-colors shadow-sm">
+          <button className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-md bg-claude-text dark:bg-white text-white dark:text-black text-xs font-medium hover:bg-black dark:hover:bg-gray-200 transition-colors shadow-sm">
             Publish
           </button>
 
           <button
             onClick={onClose}
-            className="p-1.5 rounded-md hover:bg-gray-100 text-gray-400 hover:text-gray-600 transition-colors ml-1"
+            className="p-1.5 rounded-md hover:bg-gray-100 dark:hover:bg-[#333] text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors ml-1"
           >
             <X size={16} />
           </button>
@@ -59,11 +60,11 @@ const ArtifactPanel: React.FC<ArtifactPanelProps> = ({ isOpen, artifact, onClose
       </div>
 
       {/* Content */}
-      <div className="flex-1 overflow-auto bg-white">
+      <div className="flex-1 overflow-auto bg-white dark:bg-[#1E1E1E]">
         <div className="min-h-full">
           <SyntaxHighlighter
             language={artifact.language || 'text'}
-            style={oneLight}
+            style={isDarkMode ? vscDarkPlus : oneLight}
             customStyle={{
               margin: 0,
               padding: '1.5rem',
@@ -76,7 +77,7 @@ const ArtifactPanel: React.FC<ArtifactPanelProps> = ({ isOpen, artifact, onClose
             lineNumberStyle={{
               minWidth: '2.5em',
               paddingRight: '1em',
-              color: '#9CA3AF',
+              color: isDarkMode ? '#666' : '#9CA3AF',
               textAlign: 'right'
             }}
           >
@@ -86,7 +87,7 @@ const ArtifactPanel: React.FC<ArtifactPanelProps> = ({ isOpen, artifact, onClose
       </div>
 
       {/* Footer */}
-      <div className="h-8 border-t border-[#E5E2DA] bg-[#FAFAF8] flex items-center px-4 text-[10px] text-gray-400 justify-between shrink-0">
+      <div className="h-8 border-t border-[#E5E2DA] dark:border-[#333] bg-[#FAFAF8] dark:bg-[#2A2A2A] flex items-center px-4 text-[10px] text-gray-400 dark:text-gray-500 justify-between shrink-0">
         <span>Generated by Nexa</span>
         <span className="font-mono">Ln {artifact.content.split('\n').length}, Col 0</span>
       </div>
