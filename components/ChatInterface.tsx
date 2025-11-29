@@ -331,6 +331,12 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ user, onChatStart, onArti
   const modelButtonRef = useRef<HTMLButtonElement>(null);
   const titleButtonRef = useRef<HTMLButtonElement>(null);
 
+  const markdownComponents = React.useMemo(() => ({
+    code: (props: any) => (
+      <CodeBlockRenderer {...props} onArtifactFound={onArtifactOpen} isDarkMode={isDarkMode} />
+    )
+  }), [onArtifactOpen, isDarkMode]);
+
   useEffect(() => {
     if (textareaRef.current) {
       textareaRef.current.style.height = 'auto';
@@ -824,9 +830,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ user, onChatStart, onArti
                       <div className="bg-[#F0EFEA] dark:bg-[#2A2A2A] text-claude-text px-4 py-2.5 rounded-2xl max-w-[85%] text-[15px] leading-relaxed">
                         <div className="prose prose-stone prose-sm max-w-none text-claude-text dark:text-gray-300 dark:prose-invert prose-headings:font-semibold prose-h1:text-xl prose-h2:text-lg prose-p:leading-relaxed">
                           <ReactMarkdown
-                            components={{
-                              code: (props) => <CodeBlockRenderer {...props} onArtifactFound={onArtifactOpen} isDarkMode={isDarkMode} />
-                            }}
+                            components={markdownComponents}
                           >
                             {msg.content}
                           </ReactMarkdown>
@@ -859,11 +863,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ user, onChatStart, onArti
                       {msg.content && (
                         <div className="text-claude-text text-[15px] leading-relaxed pl-1 prose prose-stone prose-sm max-w-none">
                           <ReactMarkdown
-                            components={{
-                              code: (props) => (
-                                <CodeBlockRenderer {...props} onArtifactFound={onArtifactOpen} isDarkMode={isDarkMode} />
-                              )
-                            }}
+                            components={markdownComponents}
                           >
                             {msg.content}
                           </ReactMarkdown>
@@ -894,11 +894,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ user, onChatStart, onArti
                     {streamingContent && (
                       <div className="text-claude-text text-[15px] leading-relaxed pl-1 prose prose-stone prose-sm max-w-none">
                         <ReactMarkdown
-                          components={{
-                            code: (props) => (
-                              <CodeBlockRenderer {...props} onArtifactFound={onArtifactOpen} isDarkMode={isDarkMode} />
-                            )
-                          }}
+                          components={markdownComponents}
                         >
                           {streamingContent}
                         </ReactMarkdown>
