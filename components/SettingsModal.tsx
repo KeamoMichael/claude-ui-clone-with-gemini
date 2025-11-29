@@ -45,21 +45,21 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose, user }) 
                 initial={{ opacity: 0, scale: 0.95, y: 10 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95, y: 10 }}
-                className="bg-[#FDFCF8] w-full max-w-[800px] h-[600px] rounded-2xl shadow-2xl flex overflow-hidden relative z-10"
+                className="bg-white w-full max-w-[800px] h-[600px] rounded-2xl shadow-2xl flex overflow-hidden relative z-10"
             >
                 {/* Sidebar */}
-                <div className="w-[200px] bg-[#F9F8F6] p-4 flex flex-col gap-1 shrink-0">
+                <div className="w-[200px] bg-[#F5F5F5] p-4 flex flex-col gap-1 shrink-0">
                     <h2 className="font-serif text-xl font-medium text-[#333333] mb-6 px-2">Settings</h2>
 
                     <button
                         onClick={() => setActiveTab('general')}
-                        className={`text-left px-3 py-2 rounded-lg text-[13px] font-medium transition-colors ${activeTab === 'general' ? 'bg-[#EAE8E3] text-[#333333]' : 'text-gray-500 hover:bg-[#EAE8E3]/50'}`}
+                        className={`text-left px-3 py-2 rounded-lg text-[13px] font-medium transition-colors ${activeTab === 'general' ? 'bg-[#E5E7EB] text-[#333333]' : 'text-gray-500 hover:bg-[#E5E7EB]/50'}`}
                     >
                         General
                     </button>
                     <button
                         onClick={() => setActiveTab('account')}
-                        className={`text-left px-3 py-2 rounded-lg text-[13px] font-medium transition-colors ${activeTab === 'account' ? 'bg-[#EAE8E3] text-[#333333]' : 'text-gray-500 hover:bg-[#EAE8E3]/50'}`}
+                        className={`text-left px-3 py-2 rounded-lg text-[13px] font-medium transition-colors ${activeTab === 'account' ? 'bg-[#E5E7EB] text-[#333333]' : 'text-gray-500 hover:bg-[#E5E7EB]/50'}`}
                     >
                         Account
                     </button>
@@ -67,7 +67,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose, user }) 
                 </div>
 
                 {/* Content */}
-                <div className="flex-1 overflow-y-auto p-12 bg-[#FDFCF8]">
+                <div className="flex-1 overflow-y-auto p-12 bg-white">
                     <button onClick={onClose} className="absolute top-4 right-4 p-2 text-gray-400 hover:text-gray-600 rounded-lg hover:bg-gray-100 transition-colors">
                         <X size={20} />
                     </button>
