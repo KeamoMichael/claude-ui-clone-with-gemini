@@ -16,7 +16,7 @@ import {
   ChevronUp
 } from 'lucide-react';
 import { User, ChatSession } from '../types';
-import NexaStar from '../Assets/Nexa-Star.png';
+import NexaStar from '../Assets/Nexa-Star02.png';
 
 interface SidebarProps {
   isOpen: boolean;
@@ -54,13 +54,13 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, startNewChat, 
       <div className={`h-full flex flex-col overflow-hidden ${isOpen ? 'w-[280px]' : 'w-14'}`}>
 
         {/* Header / Toggle */}
-        <div className={`h-14 flex items-center shrink-0 relative ${isOpen ? 'px-3.5 justify-between' : 'justify-center'}`}>
+        <div className={`h-14 flex items-center shrink-0 relative ${isOpen ? 'pl-6 pr-3.5 justify-between' : 'justify-center'}`}>
           {isOpen && (
             <div
               className={`
                   font-serif text-lg font-semibold text-claude-text select-none
                   transition-opacity duration-300 delay-100 opacity-100
-                  flex items-center gap-2
+                  flex items-center gap-1.5
                 `}
             >
               <img src={NexaStar} alt="" className="w-5 h-5" />

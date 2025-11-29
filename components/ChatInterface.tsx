@@ -42,7 +42,7 @@ interface ChatInterfaceProps {
   initialMessages?: Message[];
 }
 
-import NexaStar from '../Assets/Nexa-Star.png';
+import NexaStar from '../Assets/Nexa-Star02.png';
 import { motion } from 'framer-motion';
 
 // Spark/Star Icon for the Greeting and Model Message
