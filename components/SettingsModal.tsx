@@ -56,21 +56,21 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose, user, se
                 initial={{ opacity: 0, scale: 0.95, y: 10 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95, y: 10 }}
-                className="bg-white dark:bg-gray-900 w-full max-w-[800px] h-[600px] rounded-2xl shadow-2xl flex overflow-hidden relative z-10"
+                className="bg-white dark:bg-[#1F1F1F] w-full max-w-[800px] h-[600px] rounded-2xl shadow-2xl flex overflow-hidden relative z-10"
             >
                 {/* Sidebar */}
-                <div className="w-[200px] bg-[#F5F5F5] dark:bg-gray-800 p-4 flex flex-col gap-1 shrink-0">
+                <div className="w-[200px] bg-[#F5F5F5] dark:bg-[#171717] p-4 flex flex-col gap-1 shrink-0">
                     <h2 className="font-serif text-xl font-medium text-[#333333] dark:text-white mb-6 px-2">Settings</h2>
 
                     <button
                         onClick={() => setActiveTab('general')}
-                        className={`text-left px-3 py-2 rounded-lg text-[13px] font-medium transition-colors ${activeTab === 'general' ? 'bg-[#E5E7EB] dark:bg-gray-700 text-[#333333] dark:text-white' : 'text-gray-500 dark:text-gray-400 hover:bg-[#E5E7EB]/50 dark:hover:bg-gray-700/50'}`}
+                        className={`text-left px-3 py-2 rounded-lg text-[13px] font-medium transition-colors ${activeTab === 'general' ? 'bg-[#E5E7EB] dark:bg-[#2A2A2A] text-[#333333] dark:text-white' : 'text-gray-500 dark:text-gray-400 hover:bg-[#E5E7EB]/50 dark:hover:bg-[#2A2A2A]/50'}`}
                     >
                         General
                     </button>
                     <button
                         onClick={() => setActiveTab('account')}
-                        className={`text-left px-3 py-2 rounded-lg text-[13px] font-medium transition-colors ${activeTab === 'account' ? 'bg-[#E5E7EB] dark:bg-gray-700 text-[#333333] dark:text-white' : 'text-gray-500 dark:text-gray-400 hover:bg-[#E5E7EB]/50 dark:hover:bg-gray-700/50'}`}
+                        className={`text-left px-3 py-2 rounded-lg text-[13px] font-medium transition-colors ${activeTab === 'account' ? 'bg-[#E5E7EB] dark:bg-[#2A2A2A] text-[#333333] dark:text-white' : 'text-gray-500 dark:text-gray-400 hover:bg-[#E5E7EB]/50 dark:hover:bg-[#2A2A2A]/50'}`}
                     >
                         Account
                     </button>
@@ -78,8 +78,8 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose, user, se
                 </div>
 
                 {/* Content */}
-                <div className="flex-1 overflow-y-auto p-12 bg-white dark:bg-gray-900">
-                    <button onClick={onClose} className="absolute top-4 right-4 p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                <div className="flex-1 overflow-y-auto p-12 bg-white dark:bg-[#1F1F1F]">
+                    <button onClick={onClose} className="absolute top-4 right-4 p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 transition-colors">
                         <X size={20} />
                     </button>
 

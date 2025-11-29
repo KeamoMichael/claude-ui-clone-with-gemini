@@ -661,31 +661,31 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ user, onChatStart, onArti
                 {showModelMenu && (
                   <div
                     ref={modelMenuRef}
-                    className={`absolute right-0 w-[300px] bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-gray-100 dark:border-gray-700 py-2 z-[100] animate-in fade-in zoom-in-95 duration-100 origin-top-right ${menuPositionClass}`}
+                    className={`absolute right-0 w-[300px] bg-white dark:bg-[#1F1F1F] rounded-xl shadow-xl border border-gray-100 dark:border-gray-800 py-2 z-[100] animate-in fade-in zoom-in-95 duration-100 origin-top-right ${menuPositionClass}`}
                   >
                     <button
                       onClick={() => { setSelectedModel(GeminiModel.FLASH); setShowModelMenu(false); }}
-                      className={`w-full flex flex-col items-start px-4 py-3 hover:bg-gray-50 text-left transition-colors relative ${selectedModel === GeminiModel.FLASH ? 'bg-[#F5F4F0]' : ''}`}
+                      className={`w-full flex flex-col items-start px-4 py-3 hover:bg-gray-50 dark:hover:bg-white/5 text-left transition-colors relative ${selectedModel === GeminiModel.FLASH ? 'bg-[#F5F4F0] dark:bg-white/5' : ''}`}
                     >
                       <div className="w-full flex items-center justify-between mb-0.5">
-                        <span className="text-[13px] font-medium text-gray-900">Nexa 1.5 Fast</span>
+                        <span className="text-[13px] font-medium text-gray-900 dark:text-gray-100">Nexa 1.5 Fast</span>
                         {selectedModel === GeminiModel.FLASH && <Check size={14} className="text-[#3B82F6]" strokeWidth={3} />}
                       </div>
-                      <span className="text-[12px] text-gray-500">Lightning-fast responses</span>
+                      <span className="text-[12px] text-gray-500 dark:text-gray-400">Lightning-fast responses</span>
                     </button>
 
                     <button
                       disabled={true}
-                      className="w-full flex flex-col items-start px-4 py-3 bg-gray-50/50 text-left cursor-not-allowed opacity-60 relative"
+                      className="w-full flex flex-col items-start px-4 py-3 bg-gray-50/50 dark:bg-white/5 text-left cursor-not-allowed opacity-60 relative"
                     >
                       <div className="w-full flex items-center justify-between mb-0.5">
                         <div className="flex items-center gap-2">
-                          <span className="text-[13px] font-medium text-gray-900">Nexa 2.0 Pro</span>
-                          <span className="text-[10px] font-semibold text-blue-600 border border-blue-600/30 px-1.5 py-0.5 rounded-full bg-blue-50">Coming Soon</span>
+                          <span className="text-[13px] font-medium text-gray-900 dark:text-gray-100">Nexa 2.0 Pro</span>
+                          <span className="text-[10px] font-semibold text-blue-600 dark:text-blue-400 border border-blue-600/30 dark:border-blue-400/30 px-1.5 py-0.5 rounded-full bg-blue-50 dark:bg-blue-900/20">Coming Soon</span>
                         </div>
                         {selectedModel === GeminiModel.PRO && <Check size={14} className="text-[#3B82F6]" strokeWidth={3} />}
                       </div>
-                      <span className="text-[12px] text-gray-500">Advanced reasoning and analysis</span>
+                      <span className="text-[12px] text-gray-500 dark:text-gray-400">Advanced reasoning and analysis</span>
                     </button>
                   </div>
                 )}

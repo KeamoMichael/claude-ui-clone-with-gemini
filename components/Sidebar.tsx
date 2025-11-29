@@ -153,56 +153,56 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, startNewChat, 
             {/* User Footer with Popup Menu */}
             <div className="p-3 mt-auto relative fade-in" ref={profileRef}>
               {showProfileMenu && (
-                <div className="absolute bottom-full left-3 w-[260px] mb-2 bg-white rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.1)] border border-[#E5E2DA] z-50 animate-in fade-in slide-in-from-bottom-2 duration-200">
-                  <div className="p-3 border-b border-gray-100">
-                    <div className="text-[13px] font-medium text-gray-700 truncate">{user.email}</div>
+                <div className="absolute bottom-full left-3 w-[260px] mb-2 bg-white dark:bg-[#1F1F1F] rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.1)] border border-[#E5E2DA] dark:border-gray-800 z-50 animate-in fade-in slide-in-from-bottom-2 duration-200">
+                  <div className="p-3 border-b border-gray-100 dark:border-gray-800">
+                    <div className="text-[13px] font-medium text-gray-700 dark:text-gray-200 truncate">{user.email}</div>
                   </div>
 
                   <div className="py-1.5">
                     <button
                       onClick={onOpenSettings}
-                      className="w-full flex items-center justify-between px-3 py-2 hover:bg-gray-50 text-left text-[13px] text-gray-700 transition-colors"
+                      className="w-full flex items-center justify-between px-3 py-2 hover:bg-gray-50 dark:hover:bg-white/5 text-left text-[13px] text-gray-700 dark:text-gray-200 transition-colors"
                     >
                       <div className="flex items-center gap-3">
-                        <Settings size={16} className="text-gray-500" />
+                        <Settings size={16} className="text-gray-500 dark:text-gray-400" />
                         <span>Settings</span>
                       </div>
                       <span className="text-[11px] text-gray-400">↑+Ctrl+,</span>
                     </button>
-                    <button className="w-full flex items-center justify-between px-3 py-2 hover:bg-gray-50 text-left text-[13px] text-gray-700 transition-colors">
+                    <button className="w-full flex items-center justify-between px-3 py-2 hover:bg-gray-50 dark:hover:bg-white/5 text-left text-[13px] text-gray-700 dark:text-gray-200 transition-colors">
                       <div className="flex items-center gap-3">
-                        <Globe size={16} className="text-gray-500" />
+                        <Globe size={16} className="text-gray-500 dark:text-gray-400" />
                         <span>Language</span>
                       </div>
                       <ChevronUp size={14} className="text-gray-400 rotate-90" />
                     </button>
-                    <button className="w-full flex items-center gap-3 px-3 py-2 hover:bg-gray-50 text-left text-[13px] text-gray-700 transition-colors">
-                      <HelpCircle size={16} className="text-gray-500" />
+                    <button className="w-full flex items-center gap-3 px-3 py-2 hover:bg-gray-50 dark:hover:bg-white/5 text-left text-[13px] text-gray-700 dark:text-gray-200 transition-colors">
+                      <HelpCircle size={16} className="text-gray-500 dark:text-gray-400" />
                       <span>Get help</span>
                     </button>
                   </div>
 
-                  <div className="h-px bg-gray-100 mx-3 my-0.5" />
+                  <div className="h-px bg-gray-100 dark:bg-gray-800 mx-3 my-0.5" />
 
                   <div className="py-1.5">
 
-                    <button className="w-full flex items-center justify-between px-3 py-2 hover:bg-gray-50 text-left text-[13px] text-gray-700 transition-colors">
+                    <button className="w-full flex items-center justify-between px-3 py-2 hover:bg-gray-50 dark:hover:bg-white/5 text-left text-[13px] text-gray-700 dark:text-gray-200 transition-colors">
                       <div className="flex items-center gap-3">
-                        <Info size={16} className="text-gray-500" />
+                        <Info size={16} className="text-gray-500 dark:text-gray-400" />
                         <span>Learn more</span>
                       </div>
                       <ChevronUp size={14} className="text-gray-400 rotate-90" />
                     </button>
                   </div>
 
-                  <div className="h-px bg-gray-100 mx-3 my-0.5" />
+                  <div className="h-px bg-gray-100 dark:bg-gray-800 mx-3 my-0.5" />
 
                   <div className="py-1.5">
                     <button
                       onClick={handleLogout}
-                      className="w-full flex items-center gap-3 px-3 py-2 hover:bg-gray-50 text-left text-[13px] text-gray-700 transition-colors"
+                      className="w-full flex items-center gap-3 px-3 py-2 hover:bg-gray-50 dark:hover:bg-white/5 text-left text-[13px] text-gray-700 dark:text-gray-200 transition-colors"
                     >
-                      <LogOut size={16} className="text-gray-500" />
+                      <LogOut size={16} className="text-gray-500 dark:text-gray-400" />
                       <span>Log out</span>
                     </button>
                   </div>
