@@ -774,7 +774,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ user, onChatStart, onArti
             <button
               ref={titleButtonRef}
               onClick={() => setShowTitleMenu(!showTitleMenu)}
-              className={`flex items-center gap-1.5 px-2 py-1.5 rounded-lg hover:bg-gray-200/50 transition-colors text-claude-text font-medium text-sm ${showTitleMenu ? 'bg-gray-200/50' : ''}`}
+              className={`flex items-center gap-1.5 px-2 py-1.5 rounded-lg hover:bg-gray-200/50 dark:hover:bg-[#333] transition-colors text-claude-text font-medium text-sm ${showTitleMenu ? 'bg-gray-200/50 dark:bg-[#333]' : ''}`}
             >
               <span className="max-w-[200px] truncate">{chatTitle}</span>
               <ChevronDown size={14} className="text-gray-400 shrink-0" />
@@ -786,22 +786,22 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ user, onChatStart, onArti
                 ref={titleMenuRef}
                 className="absolute top-full left-0 mt-1 w-[200px] bg-white dark:bg-[#1F1F1F] rounded-xl shadow-xl border border-gray-100 dark:border-gray-800 py-1.5 z-[100] animate-in fade-in zoom-in-95 duration-100 origin-top-left"
               >
-                <button className="w-full flex items-center gap-3 px-3 py-2 hover:bg-gray-50 dark:hover:bg-white/5 text-left text-[13px] text-gray-700 dark:text-gray-200 transition-colors group">
+                <button className="w-full flex items-center gap-3 px-3 py-2 hover:bg-gray-50 dark:hover:bg-[#2A2A2A] text-left text-[13px] text-gray-700 dark:text-gray-200 transition-colors group">
                   <Star size={16} className="text-gray-500 dark:text-gray-400 group-hover:text-gray-700 dark:group-hover:text-gray-200" />
                   <span>Star</span>
                 </button>
-                <button className="w-full flex items-center gap-3 px-3 py-2 hover:bg-gray-50 dark:hover:bg-white/5 text-left text-[13px] text-gray-700 dark:text-gray-200 transition-colors group">
+                <button className="w-full flex items-center gap-3 px-3 py-2 hover:bg-gray-50 dark:hover:bg-[#2A2A2A] text-left text-[13px] text-gray-700 dark:text-gray-200 transition-colors group">
                   <Pencil size={16} className="text-gray-500 dark:text-gray-400 group-hover:text-gray-700 dark:group-hover:text-gray-200" />
                   <span>Rename</span>
                 </button>
-                <button className="w-full flex items-center gap-3 px-3 py-2 hover:bg-gray-50 dark:hover:bg-white/5 text-left text-[13px] text-gray-700 dark:text-gray-200 transition-colors group">
+                <button className="w-full flex items-center gap-3 px-3 py-2 hover:bg-gray-50 dark:hover:bg-[#2A2A2A] text-left text-[13px] text-gray-700 dark:text-gray-200 transition-colors group">
                   <FolderPlus size={16} className="text-gray-500 dark:text-gray-400 group-hover:text-gray-700 dark:group-hover:text-gray-200" />
                   <span>Add to project</span>
                 </button>
 
                 <div className="h-px bg-gray-100 dark:bg-white/10 my-1 mx-3" />
 
-                <button className="w-full flex items-center gap-3 px-3 py-2 hover:bg-gray-50 dark:hover:bg-white/5 text-left text-[13px] text-[#B94A48] transition-colors group">
+                <button className="w-full flex items-center gap-3 px-3 py-2 hover:bg-gray-50 dark:hover:bg-[#2A2A2A] text-left text-[13px] text-[#B94A48] transition-colors group">
                   <Trash2 size={16} className="text-[#B94A48]" />
                   <span>Delete</span>
                 </button>
