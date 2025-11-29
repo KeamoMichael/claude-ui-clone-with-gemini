@@ -264,7 +264,7 @@ const App: React.FC = () => {
         {isArtifactOpen && (
           <>
             <div
-              className="w-1 cursor-col-resize hover:bg-claude-accent/50 bg-transparent z-50 transition-colors"
+              className="w-1 cursor-col-resize hover:bg-claude-accent/50 bg-gray-200 dark:bg-[#333] z-50 transition-colors"
               onMouseDown={startResizing}
             />
             <div

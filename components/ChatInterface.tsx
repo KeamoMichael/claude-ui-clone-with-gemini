@@ -672,7 +672,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ user, onChatStart, onArti
                   <button
                     ref={modelButtonRef}
                     onClick={(e) => { e.stopPropagation(); setShowModelMenu(!showModelMenu); }}
-                    className={`text-xs font-medium flex items-center gap-1 cursor-pointer bg-white dark:bg-[#2A2A2A] hover:bg-gray-50 dark:hover:bg-[#333] px-3 py-1.5 rounded-full transition-colors border border-gray-200 dark:border-gray-700 shadow-sm text-gray-700 dark:text-gray-200 ${showModelMenu ? 'ring-2 ring-blue-500/20' : ''}`}
+                    className={`text-xs font-medium flex items-center gap-1 cursor-pointer hover:bg-gray-100 dark:hover:bg-white/10 px-3 py-1.5 rounded-lg transition-colors text-gray-500 dark:text-gray-400 ${showModelMenu ? 'bg-gray-100 dark:bg-white/10 text-gray-800 dark:text-gray-200' : ''}`}
                   >
                     <span>{getModelName(selectedModel)}</span>
                     <ChevronDown size={12} strokeWidth={2.5} className="text-gray-400" />
@@ -736,7 +736,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ user, onChatStart, onArti
 
       {/* Sticky Header for Active Chat */}
       {hasMessages && (
-        <div className={`h-14 flex items-center justify-between px-4 border-b border-transparent z-30 bg-claude-bg/95 backdrop-blur-sm sticky top-0 transition-all pl-4`}>
+        <div className={`h-14 flex items-center justify-between px-4 border-b border-transparent dark:border-transparent z-30 bg-claude-bg/95 backdrop-blur-sm sticky top-0 transition-all pl-4`}>
           <div className="relative">
             <button
               ref={titleButtonRef}
@@ -795,7 +795,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ user, onChatStart, onArti
                         {user.name.charAt(0)}
                       </div>
                       <div className="bg-[#F0EFEA] dark:bg-[#2A2A2A] text-claude-text px-4 py-2.5 rounded-2xl max-w-[85%] text-[15px] leading-relaxed">
-                        <div className="prose prose-stone prose-sm max-w-none text-claude-text dark:text-gray-300">
+                        <div className="prose prose-stone prose-sm max-w-none text-claude-text dark:text-gray-300 dark:prose-invert prose-headings:font-semibold prose-h1:text-xl prose-h2:text-lg prose-p:leading-relaxed">
                           <ReactMarkdown
                             components={{
                               code: (props) => <CodeBlockRenderer {...props} onArtifactFound={onArtifactOpen} isDarkMode={isDarkMode} />
