@@ -2,6 +2,26 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --claude-bg: #F5F5F5;
+  --claude-sidebar: #F5F5F5;
+  --claude-text: #3F3E3D;
+  --claude-input: #FFFFFF;
+  --claude-border: #E0E0E0;
+  --claude-subtle: #888888;
+  --claude-accent: #000000;
+}
+
+.dark {
+  --claude-bg: #1A1A1A;
+  --claude-sidebar: #1A1A1A;
+  --claude-text: #FFFFFF;
+  --claude-input: #2A2A2A;
+  --claude-border: #333333;
+  --claude-subtle: #A0A0A0;
+  --claude-accent: #FFFFFF;
+}
+
 @font-face {
   font-family: 'Manrope';
   src: url('/fonts/Manrope-Regular.otf') format('opentype');

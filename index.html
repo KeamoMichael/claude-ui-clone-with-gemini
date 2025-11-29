@@ -23,13 +23,13 @@
           },
           colors: {
             claude: {
-              bg: '#F5F5F5', // Unified light grey background
-              sidebar: '#F5F5F5', // Same as bg
-              accent: '#000000', // Black accent
-              text: '#3F3E3D',
-              input: '#FFFFFF',
-              border: '#E0E0E0', // Neutral grey border
-              subtle: '#888888'
+              bg: 'var(--claude-bg)',
+              sidebar: 'var(--claude-sidebar)',
+              accent: 'var(--claude-accent)',
+              text: 'var(--claude-text)',
+              input: 'var(--claude-input)',
+              border: 'var(--claude-border)',
+              subtle: 'var(--claude-subtle)'
             }
           }
         }
@@ -38,8 +38,8 @@
   </script>
   <style>
     body {
-      background-color: #F5F5F5;
-      color: #3F3E3D;
+      background-color: var(--claude-bg);
+      color: var(--claude-text);
     }
 
     /* Custom scrollbar to match the subtle look */
