@@ -545,7 +545,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ user, onChatStart, onArti
           <div className="flex items-center justify-between mt-2 select-none">
             <div className="flex items-center gap-1">
               <Tooltip content="Attach artifacts">
-                <button className="p-2 bg-white dark:bg-[#2A2A2A] rounded-xl hover:bg-gray-50 dark:hover:bg-[#333] text-gray-900 dark:text-gray-100 transition-colors shadow-sm border border-gray-200 dark:border-gray-700">
+                <button className="p-2 rounded-xl hover:bg-gray-100 dark:hover:bg-white/10 text-gray-500 dark:text-gray-400 transition-colors">
                   <Plus size={18} strokeWidth={2.5} />
                 </button>
               </Tooltip>
@@ -660,7 +660,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ user, onChatStart, onArti
               </div>
 
               <Tooltip content="Recent chats">
-                <button className="p-2 bg-white dark:bg-[#2A2A2A] rounded-xl hover:bg-gray-50 dark:hover:bg-[#333] text-gray-900 dark:text-gray-100 transition-colors shadow-sm border border-gray-200 dark:border-gray-700">
+                <button className="p-2 rounded-xl hover:bg-gray-100 dark:hover:bg-white/10 text-gray-500 dark:text-gray-400 transition-colors">
                   <History size={18} strokeWidth={2.5} />
                 </button>
               </Tooltip>
