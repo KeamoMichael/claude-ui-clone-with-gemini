@@ -27,8 +27,17 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose, user, se
     };
 
     const handleLogout = async () => {
-        await supabase.auth.signOut();
-        onClose();
+        try {
+            const { error } = await supabase.auth.signOut();
+            if (error) throw error;
+            onClose();
+            // Force a reload to ensure all states and cache are cleared
+            window.location.reload();
+        } catch (error) {
+            console.error('Error logging out:', error);
+            // Fallback: try to force reload anyway if it's just a network glitch
+            window.location.reload();
+        }
     };
 
     if (!isOpen) return null;
