@@ -109,6 +109,16 @@ const CodeBlockRenderer = ({ inline, className, children, onArtifactFound, isDar
       }
     }, [code.length]);
 
+    const [isExpanded, setIsExpanded] = useState(false);
+    const [isCopied, setIsCopied] = useState(false);
+
+    const handleCopy = (e: React.MouseEvent) => {
+      e.stopPropagation();
+      navigator.clipboard.writeText(code);
+      setIsCopied(true);
+      setTimeout(() => setIsCopied(false), 2000);
+    };
+
     // Render the "Preview Card"
     return (
       <div className="my-3 border border-[#E5E2DA] dark:border-[#333] rounded-xl bg-white dark:bg-[#1E1E1E] overflow-hidden shadow-sm hover:shadow-md transition-shadow cursor-pointer group">
@@ -122,11 +132,17 @@ const CodeBlockRenderer = ({ inline, className, children, onArtifactFound, isDar
               <div className="text-xs text-gray-500 dark:text-gray-400 capitalize">{language}</div>
             </div>
           </div>
-          <div className="text-xs font-medium text-claude-accent dark:text-white opacity-0 group-hover:opacity-100 transition-opacity">
-            View Code
+          <div className="flex items-center gap-2">
+            <button
+              onClick={handleCopy}
+              className="flex items-center gap-1.5 px-2 py-1 rounded-md hover:bg-gray-200 dark:hover:bg-white/10 text-xs font-medium text-gray-500 dark:text-gray-400 transition-colors"
+            >
+              {isCopied ? <Check size={14} className="text-green-500" /> : <Copy size={14} />}
+              <span>{isCopied ? 'Copied' : 'Copy'}</span>
+            </button>
           </div>
         </div>
-        <div className="bg-white dark:bg-[#1E1E1E] max-h-32 overflow-hidden relative">
+        <div className={`bg-white dark:bg-[#1E1E1E] overflow-hidden relative ${isExpanded ? '' : 'max-h-32'}`}>
           <SyntaxHighlighter
             language={language}
             style={isDarkMode ? vscDarkPlus : oneLight}
@@ -142,8 +158,19 @@ const CodeBlockRenderer = ({ inline, className, children, onArtifactFound, isDar
           >
             {code}
           </SyntaxHighlighter>
-          <div className={`absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t ${isDarkMode ? 'from-[#1E1E1E]' : 'from-white'} to-transparent pointer-events-none`} />
+          {!isExpanded && (
+            <div className={`absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t ${isDarkMode ? 'from-[#1E1E1E]' : 'from-white'} to-transparent pointer-events-none`} />
+          )}
         </div>
+        {!isExpanded && (
+          <div
+            onClick={(e) => { e.stopPropagation(); setIsExpanded(true); }}
+            className="w-full py-1.5 bg-[#FAFAF8] dark:bg-[#252526] border-t border-[#E5E2DA] dark:border-[#333] flex items-center justify-center gap-1 cursor-pointer hover:bg-gray-100 dark:hover:bg-white/5 transition-colors"
+          >
+            <ChevronDown size={14} className="text-gray-500 dark:text-gray-400" />
+            <span className="text-xs font-medium text-gray-500 dark:text-gray-400">View full code</span>
+          </div>
+        )}
       </div>
     );
   }
@@ -751,24 +778,24 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ user, onChatStart, onArti
             {showTitleMenu && (
               <div
                 ref={titleMenuRef}
-                className="absolute top-full left-0 mt-1 w-[200px] bg-white rounded-xl shadow-xl border border-gray-100 py-1.5 z-[100] animate-in fade-in zoom-in-95 duration-100 origin-top-left"
+                className="absolute top-full left-0 mt-1 w-[200px] bg-white dark:bg-[#1F1F1F] rounded-xl shadow-xl border border-gray-100 dark:border-gray-800 py-1.5 z-[100] animate-in fade-in zoom-in-95 duration-100 origin-top-left"
               >
-                <button className="w-full flex items-center gap-3 px-3 py-2 hover:bg-gray-50 text-left text-[13px] text-gray-700 transition-colors">
-                  <Star size={16} className="text-gray-500" />
+                <button className="w-full flex items-center gap-3 px-3 py-2 hover:bg-gray-50 dark:hover:bg-white/5 text-left text-[13px] text-gray-700 dark:text-gray-200 transition-colors group">
+                  <Star size={16} className="text-gray-500 dark:text-gray-400 group-hover:text-gray-700 dark:group-hover:text-gray-200" />
                   <span>Star</span>
                 </button>
-                <button className="w-full flex items-center gap-3 px-3 py-2 hover:bg-gray-50 text-left text-[13px] text-gray-700 transition-colors">
-                  <Pencil size={16} className="text-gray-500" />
+                <button className="w-full flex items-center gap-3 px-3 py-2 hover:bg-gray-50 dark:hover:bg-white/5 text-left text-[13px] text-gray-700 dark:text-gray-200 transition-colors group">
+                  <Pencil size={16} className="text-gray-500 dark:text-gray-400 group-hover:text-gray-700 dark:group-hover:text-gray-200" />
                   <span>Rename</span>
                 </button>
-                <button className="w-full flex items-center gap-3 px-3 py-2 hover:bg-gray-50 text-left text-[13px] text-gray-700 transition-colors">
-                  <FolderPlus size={16} className="text-gray-500" />
+                <button className="w-full flex items-center gap-3 px-3 py-2 hover:bg-gray-50 dark:hover:bg-white/5 text-left text-[13px] text-gray-700 dark:text-gray-200 transition-colors group">
+                  <FolderPlus size={16} className="text-gray-500 dark:text-gray-400 group-hover:text-gray-700 dark:group-hover:text-gray-200" />
                   <span>Add to project</span>
                 </button>
 
-                <div className="h-px bg-gray-100 my-1 mx-3" />
+                <div className="h-px bg-gray-100 dark:bg-white/10 my-1 mx-3" />
 
-                <button className="w-full flex items-center gap-3 px-3 py-2 hover:bg-gray-50 text-left text-[13px] text-[#B94A48] transition-colors">
+                <button className="w-full flex items-center gap-3 px-3 py-2 hover:bg-gray-50 dark:hover:bg-white/5 text-left text-[13px] text-[#B94A48] transition-colors group">
                   <Trash2 size={16} className="text-[#B94A48]" />
                   <span>Delete</span>
                 </button>
