@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { X, Copy, Check } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { AppSettings } from '../types';
+import { supabase } from '../services/supabaseClient';
 
 interface SettingsModalProps {
     isOpen: boolean;
@@ -23,6 +24,11 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose, user, se
         navigator.clipboard.writeText(orgId);
         setCopiedOrgId(true);
         setTimeout(() => setCopiedOrgId(false), 2000);
+    };
+
+    const handleLogout = async () => {
+        await supabase.auth.signOut();
+        onClose();
     };
 
     if (!isOpen) return null;
@@ -238,7 +244,10 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose, user, se
                                 <div className="space-y-6">
                                     <div className="flex items-center justify-between">
                                         <div className="text-[13px] text-[#333333]">Log out of all devices</div>
-                                        <button className="px-3 py-1.5 border border-gray-200 rounded-lg text-[13px] font-medium text-[#333333] hover:bg-gray-50 transition-colors">
+                                        <button
+                                            onClick={handleLogout}
+                                            className="px-3 py-1.5 border border-gray-200 rounded-lg text-[13px] font-medium text-[#333333] hover:bg-gray-50 transition-colors"
+                                        >
                                             Log out
                                         </button>
                                     </div>

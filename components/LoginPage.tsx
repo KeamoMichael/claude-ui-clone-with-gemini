@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import NexaStar from '../Assets/Nexa-Star02.png';
+import { supabase } from '../services/supabaseClient';
 
 interface LoginPageProps {
     onLogin: () => void;
@@ -7,11 +8,45 @@ interface LoginPageProps {
 
 const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
     const [email, setEmail] = useState('');
+    const [loading, setLoading] = useState(false);
+    const [message, setMessage] = useState<{ type: 'success' | 'error', text: string } | null>(null);
 
-    const handleEmailLogin = (e: React.FormEvent) => {
+    const handleEmailLogin = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (email) {
-            onLogin();
+        if (!email) return;
+
+        setLoading(true);
+        setMessage(null);
+
+        try {
+            const { error } = await supabase.auth.signInWithOtp({
+                email,
+                options: {
+                    emailRedirectTo: window.location.origin,
+                },
+            });
+
+            if (error) throw error;
+
+            setMessage({ type: 'success', text: 'Check your email for the login link!' });
+        } catch (error: any) {
+            setMessage({ type: 'error', text: error.message || 'An error occurred' });
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleGoogleLogin = async () => {
+        try {
+            const { error } = await supabase.auth.signInWithOAuth({
+                provider: 'google',
+                options: {
+                    redirectTo: window.location.origin,
+                },
+            });
+            if (error) throw error;
+        } catch (error: any) {
+            setMessage({ type: 'error', text: error.message || 'An error occurred' });
         }
     };
 
@@ -36,7 +71,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
 
                     <div className="w-full bg-white p-6 rounded-2xl border border-gray-200 shadow-sm">
                         <button
-                            onClick={onLogin}
+                            onClick={handleGoogleLogin}
                             className="w-full flex items-center justify-center gap-3 bg-white hover:bg-gray-50 text-[#333333] py-2.5 rounded-lg transition-colors mb-4 border border-gray-200 text-sm font-medium"
                         >
                             <svg className="w-4 h-4" viewBox="0 0 24 24">
@@ -72,15 +107,27 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
                                 placeholder="Enter your email"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
-                                className="w-full bg-white border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-[#333333] placeholder-gray-400 focus:outline-none focus:border-gray-400 focus:ring-1 focus:ring-gray-400 transition-all"
+                                disabled={loading}
+                                className="w-full bg-white border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-[#333333] placeholder-gray-400 focus:outline-none focus:border-gray-400 focus:ring-1 focus:ring-gray-400 transition-all disabled:opacity-50"
                             />
                             <button
                                 type="submit"
-                                className="w-full bg-[#3B82F6] text-white hover:bg-[#2563EB] font-medium py-2.5 rounded-lg transition-colors text-sm"
+                                disabled={loading}
+                                className="w-full bg-[#3B82F6] text-white hover:bg-[#2563EB] font-medium py-2.5 rounded-lg transition-colors text-sm disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center"
                             >
-                                Continue with email
+                                {loading ? (
+                                    <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                                ) : (
+                                    'Continue with email'
+                                )}
                             </button>
                         </form>
+
+                        {message && (
+                            <div className={`mt-4 p-3 rounded-lg text-xs ${message.type === 'success' ? 'bg-green-50 text-green-700 border border-green-200' : 'bg-red-50 text-red-700 border border-red-200'}`}>
+                                {message.text}
+                            </div>
+                        )}
 
                         <p className="text-[10px] text-gray-400 text-center mt-4 leading-tight">
                             By continuing, you acknowledge Nexa's Privacy Policy.

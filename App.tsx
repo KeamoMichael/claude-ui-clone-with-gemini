@@ -5,6 +5,7 @@ import ArtifactPanel from './components/ArtifactPanel';
 import SettingsModal from './components/SettingsModal';
 import LoginPage from './components/LoginPage';
 import { User, ChatSession, Artifact, AppSettings } from './types';
+import { supabase } from './services/supabaseClient';
 
 // Mock User Data
 const mockUser: User = {
@@ -41,11 +42,33 @@ const App: React.FC = () => {
   });
   const [currentChatId, setCurrentChatId] = useState<string | null>(null);
   const [initialMessages, setInitialMessages] = useState<any[]>([]);
+  const [session, setSession] = useState<any>(null);
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+      if (session) setView('chat');
+    });
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+      if (session) {
+        setView('chat');
+      } else {
+        setView('login');
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
 
   // Derived User with updates
   const currentUser = {
     ...mockUser,
-    name: settings.userName
+    name: settings.userName,
+    email: session?.user?.email || mockUser.email
   };
 
   // Split Pane State
@@ -156,7 +179,7 @@ const App: React.FC = () => {
   }, [isResizing]);
 
   const handleLogin = () => {
-    setView('chat');
+    // View switch is handled by onAuthStateChange
   };
 
   const handleUpdateSettings = (newSettings: Partial<AppSettings>) => {
