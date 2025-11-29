@@ -3,7 +3,8 @@ import Sidebar from './components/Sidebar';
 import ChatInterface from './components/ChatInterface';
 import ArtifactPanel from './components/ArtifactPanel';
 import SettingsModal from './components/SettingsModal';
-import { User, ChatSession, Artifact } from './types';
+import LoginPage from './components/LoginPage';
+import { User, ChatSession, Artifact, AppSettings } from './types';
 
 // Mock User Data
 const mockUser: User = {
@@ -13,10 +14,25 @@ const mockUser: User = {
   plan: "Free"
 };
 
+
+
 const App: React.FC = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isArtifactOpen, setIsArtifactOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const [view, setView] = useState<'login' | 'chat'>('login');
+
+  // Settings State
+  const [settings, setSettings] = useState<AppSettings>({
+    theme: 'match',
+    font: 'default',
+    notifications: true,
+    userName: mockUser.name,
+    displayName: mockUser.name,
+    workFunction: '',
+    preferences: ''
+  });
+
   const [currentArtifact, setCurrentArtifact] = useState<Artifact | null>(null);
   const [resetChatTrigger, setResetChatTrigger] = useState(0);
   const [recentChats, setRecentChats] = useState<ChatSession[]>(() => {
@@ -25,6 +41,12 @@ const App: React.FC = () => {
   });
   const [currentChatId, setCurrentChatId] = useState<string | null>(null);
   const [initialMessages, setInitialMessages] = useState<any[]>([]);
+
+  // Derived User with updates
+  const currentUser = {
+    ...mockUser,
+    name: settings.userName
+  };
 
   // Split Pane State
   const [chatWidth, setChatWidth] = useState(50); // Percentage
@@ -133,12 +155,31 @@ const App: React.FC = () => {
     };
   }, [isResizing]);
 
+  const handleLogin = () => {
+    setView('chat');
+  };
+
+  const handleUpdateSettings = (newSettings: Partial<AppSettings>) => {
+    setSettings(prev => ({ ...prev, ...newSettings }));
+  };
+
+  // Font Class Map
+  const fontClass = {
+    'default': 'font-serif',
+    'match': 'font-sans',
+    'dyslexic': 'font-mono' // using mono as proxy for dyslexic for now, or could be a specific class
+  }[settings.font];
+
+  if (view === 'login') {
+    return <LoginPage onLogin={handleLogin} />;
+  }
+
   return (
-    <div className="flex h-screen w-screen bg-claude-bg text-claude-text font-sans overflow-hidden">
+    <div className={`flex h-screen w-screen bg-claude-bg text-claude-text overflow-hidden ${fontClass}`}>
       <Sidebar
         isOpen={isSidebarOpen}
         toggleSidebar={toggleSidebar}
-        user={mockUser}
+        user={currentUser}
         startNewChat={startNewChat}
         recentChats={recentChats}
         startNewChat={startNewChat}
@@ -162,7 +203,7 @@ const App: React.FC = () => {
         >
           <ChatInterface
             key={resetChatTrigger}
-            user={mockUser}
+            user={currentUser}
             onChatStart={handleChatStart}
             onArtifactOpen={handleArtifactOpen}
             isArtifactOpen={isArtifactOpen}
@@ -196,7 +237,9 @@ const App: React.FC = () => {
       <SettingsModal
         isOpen={isSettingsOpen}
         onClose={() => setIsSettingsOpen(false)}
-        user={mockUser}
+        user={currentUser}
+        settings={settings}
+        onUpdateSettings={handleUpdateSettings}
       />
     </div>
   );

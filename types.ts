@@ -63,3 +63,13 @@ export interface Artifact {
   language?: string;
   content: string;
 }
+
+export interface AppSettings {
+  theme: 'light' | 'match' | 'dark';
+  font: 'default' | 'match' | 'dyslexic';
+  notifications: boolean;
+  userName: string;
+  displayName: string;
+  workFunction: string;
+  preferences: string;
+}

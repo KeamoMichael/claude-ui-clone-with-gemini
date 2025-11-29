@@ -1,25 +1,21 @@
 import React, { useState } from 'react';
 import { X, Copy, Check } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { AppSettings } from '../types';
 
 interface SettingsModalProps {
     isOpen: boolean;
     onClose: () => void;
     user: { name: string; email: string };
+    settings: AppSettings;
+    onUpdateSettings: (settings: Partial<AppSettings>) => void;
 }
 
 type Tab = 'general' | 'account';
 
-const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose, user }) => {
+const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose, user, settings, onUpdateSettings }) => {
     const [activeTab, setActiveTab] = useState<Tab>('general');
     const [copiedOrgId, setCopiedOrgId] = useState(false);
-    const [fullName, setFullName] = useState(user.name);
-    const [displayName, setDisplayName] = useState(user.name);
-    const [workFunction, setWorkFunction] = useState('');
-    const [preferences, setPreferences] = useState('');
-    const [notificationsEnabled, setNotificationsEnabled] = useState(true);
-    const [colorMode, setColorMode] = useState('match'); // light, match, dark
-    const [fontMode, setFontMode] = useState('default'); // default, match, dyslexic
 
     const orgId = "ada72896-0913-448d-8781-9b67374c4759";
 
@@ -87,8 +83,8 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose, user }) 
                                             <label className="block text-[11px] font-medium text-gray-500 mb-1.5">Full name</label>
                                             <input
                                                 type="text"
-                                                value={fullName}
-                                                onChange={(e) => setFullName(e.target.value)}
+                                                value={settings.userName}
+                                                onChange={(e) => onUpdateSettings({ userName: e.target.value })}
                                                 className="w-full px-3 py-2 bg-white border border-gray-200 rounded-lg text-[13px] text-[#333333] focus:outline-none focus:border-gray-400 focus:ring-1 focus:ring-gray-400 transition-all"
                                             />
                                         </div>
@@ -96,8 +92,8 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose, user }) 
                                             <label className="block text-[11px] font-medium text-gray-500 mb-1.5">What should Claude call you?</label>
                                             <input
                                                 type="text"
-                                                value={displayName}
-                                                onChange={(e) => setDisplayName(e.target.value)}
+                                                value={settings.displayName}
+                                                onChange={(e) => onUpdateSettings({ displayName: e.target.value })}
                                                 className="w-full px-3 py-2 bg-white border border-gray-200 rounded-lg text-[13px] text-[#333333] focus:outline-none focus:border-gray-400 focus:ring-1 focus:ring-gray-400 transition-all"
                                             />
                                         </div>
@@ -107,8 +103,8 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose, user }) 
                                 <div className="mb-6">
                                     <label className="block text-[11px] font-medium text-gray-500 mb-1.5">What best describes your work?</label>
                                     <select
-                                        value={workFunction}
-                                        onChange={(e) => setWorkFunction(e.target.value)}
+                                        value={settings.workFunction}
+                                        onChange={(e) => onUpdateSettings({ workFunction: e.target.value })}
                                         className="w-full px-3 py-2 bg-white border border-gray-200 rounded-lg text-[13px] text-[#333333] focus:outline-none focus:border-gray-400 focus:ring-1 focus:ring-gray-400 transition-all appearance-none cursor-pointer"
                                     >
                                         <option value="" disabled>Select your work function</option>
@@ -123,8 +119,8 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose, user }) 
                                     <label className="block text-[11px] font-medium text-gray-500 mb-1">What <span className="underline decoration-gray-300 decoration-dotted cursor-help">personal preferences</span> should Claude consider in responses?</label>
                                     <p className="text-[11px] text-gray-400 mb-2">Your preferences will apply to all conversations, within Anthropic's guidelines.</p>
                                     <textarea
-                                        value={preferences}
-                                        onChange={(e) => setPreferences(e.target.value)}
+                                        value={settings.preferences}
+                                        onChange={(e) => onUpdateSettings({ preferences: e.target.value })}
                                         placeholder="e.g. I primarily code in Python (not a coding beginner)"
                                         className="w-full h-24 px-3 py-2 bg-white border border-gray-200 rounded-lg text-[13px] text-[#333333] focus:outline-none focus:border-gray-400 focus:ring-1 focus:ring-gray-400 transition-all resize-none"
                                     />
@@ -140,10 +136,10 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose, user }) 
                                         <div className="text-[11px] text-gray-500 mt-0.5">Get notified when Claude has finished a response. Most useful for long running tasks like tool calls and Research.</div>
                                     </div>
                                     <button
-                                        onClick={() => setNotificationsEnabled(!notificationsEnabled)}
-                                        className={`w-9 h-5 rounded-full relative transition-colors duration-200 ${notificationsEnabled ? 'bg-[#3B82F6]' : 'bg-gray-200'}`}
+                                        onClick={() => onUpdateSettings({ notifications: !settings.notifications })}
+                                        className={`w-9 h-5 rounded-full relative transition-colors duration-200 ${settings.notifications ? 'bg-[#3B82F6]' : 'bg-gray-200'}`}
                                     >
-                                        <div className={`absolute top-0.5 w-4 h-4 bg-white rounded-full transition-all duration-200 shadow-sm ${notificationsEnabled ? 'left-[18px]' : 'left-0.5'}`} />
+                                        <div className={`absolute top-0.5 w-4 h-4 bg-white rounded-full transition-all duration-200 shadow-sm ${settings.notifications ? 'left-[18px]' : 'left-0.5'}`} />
                                     </button>
                                 </div>
                             </section>
@@ -156,8 +152,8 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose, user }) 
                                     <label className="block text-[11px] font-medium text-gray-500 mb-3">Color mode</label>
                                     <div className="grid grid-cols-3 gap-3">
                                         <button
-                                            onClick={() => setColorMode('light')}
-                                            className={`group relative p-1 rounded-xl border transition-all ${colorMode === 'light' ? 'border-[#3B82F6] ring-1 ring-[#3B82F6]' : 'border-gray-200 hover:border-gray-300'}`}
+                                            onClick={() => onUpdateSettings({ theme: 'light' })}
+                                            className={`group relative p-1 rounded-xl border transition-all ${settings.theme === 'light' ? 'border-[#3B82F6] ring-1 ring-[#3B82F6]' : 'border-gray-200 hover:border-gray-300'}`}
                                         >
                                             <div className="bg-[#F5F5F5] rounded-lg p-3 h-20 flex flex-col justify-center items-center gap-2">
                                                 <div className="w-full h-2 bg-white rounded-full opacity-60" />
@@ -167,8 +163,8 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose, user }) 
                                         </button>
 
                                         <button
-                                            onClick={() => setColorMode('match')}
-                                            className={`group relative p-1 rounded-xl border transition-all ${colorMode === 'match' ? 'border-[#3B82F6] ring-1 ring-[#3B82F6]' : 'border-gray-200 hover:border-gray-300'}`}
+                                            onClick={() => onUpdateSettings({ theme: 'match' })}
+                                            className={`group relative p-1 rounded-xl border transition-all ${settings.theme === 'match' ? 'border-[#3B82F6] ring-1 ring-[#3B82F6]' : 'border-gray-200 hover:border-gray-300'}`}
                                         >
                                             <div className="flex h-20 rounded-lg overflow-hidden">
                                                 <div className="w-1/2 bg-[#F5F5F5] flex flex-col justify-center items-center gap-2 p-2">
@@ -184,8 +180,8 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose, user }) 
                                         </button>
 
                                         <button
-                                            onClick={() => setColorMode('dark')}
-                                            className={`group relative p-1 rounded-xl border transition-all ${colorMode === 'dark' ? 'border-[#3B82F6] ring-1 ring-[#3B82F6]' : 'border-gray-200 hover:border-gray-300'}`}
+                                            onClick={() => onUpdateSettings({ theme: 'dark' })}
+                                            className={`group relative p-1 rounded-xl border transition-all ${settings.theme === 'dark' ? 'border-[#3B82F6] ring-1 ring-[#3B82F6]' : 'border-gray-200 hover:border-gray-300'}`}
                                         >
                                             <div className="bg-[#1A1A1A] rounded-lg p-3 h-20 flex flex-col justify-center items-center gap-2">
                                                 <div className="w-full h-2 bg-white/20 rounded-full" />
@@ -200,8 +196,8 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose, user }) 
                                     <label className="block text-[11px] font-medium text-gray-500 mb-3">Chat font</label>
                                     <div className="grid grid-cols-3 gap-3">
                                         <button
-                                            onClick={() => setFontMode('default')}
-                                            className={`group relative p-1 rounded-xl border transition-all ${fontMode === 'default' ? 'border-[#3B82F6] ring-1 ring-[#3B82F6]' : 'border-gray-200 hover:border-gray-300'}`}
+                                            onClick={() => onUpdateSettings({ font: 'default' })}
+                                            className={`group relative p-1 rounded-xl border transition-all ${settings.font === 'default' ? 'border-[#3B82F6] ring-1 ring-[#3B82F6]' : 'border-gray-200 hover:border-gray-300'}`}
                                         >
                                             <div className="bg-white rounded-lg h-16 flex items-center justify-center">
                                                 <span className="text-xl font-serif text-[#333333]">Aa</span>
@@ -210,8 +206,8 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose, user }) 
                                         </button>
 
                                         <button
-                                            onClick={() => setFontMode('match')}
-                                            className={`group relative p-1 rounded-xl border transition-all ${fontMode === 'match' ? 'border-[#3B82F6] ring-1 ring-[#3B82F6]' : 'border-gray-200 hover:border-gray-300'}`}
+                                            onClick={() => onUpdateSettings({ font: 'match' })}
+                                            className={`group relative p-1 rounded-xl border transition-all ${settings.font === 'match' ? 'border-[#3B82F6] ring-1 ring-[#3B82F6]' : 'border-gray-200 hover:border-gray-300'}`}
                                         >
                                             <div className="bg-white rounded-lg h-16 flex items-center justify-center">
                                                 <span className="text-xl font-sans text-[#333333]">Aa</span>
@@ -220,8 +216,8 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose, user }) 
                                         </button>
 
                                         <button
-                                            onClick={() => setFontMode('dyslexic')}
-                                            className={`group relative p-1 rounded-xl border transition-all ${fontMode === 'dyslexic' ? 'border-[#3B82F6] ring-1 ring-[#3B82F6]' : 'border-gray-200 hover:border-gray-300'}`}
+                                            onClick={() => onUpdateSettings({ font: 'dyslexic' })}
+                                            className={`group relative p-1 rounded-xl border transition-all ${settings.font === 'dyslexic' ? 'border-[#3B82F6] ring-1 ring-[#3B82F6]' : 'border-gray-200 hover:border-gray-300'}`}
                                         >
                                             <div className="bg-white rounded-lg h-16 flex items-center justify-center">
                                                 <span className="text-xl font-mono text-[#333333]">Aa</span>
