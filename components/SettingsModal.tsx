@@ -63,11 +63,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose, user }) 
                     >
                         Account
                     </button>
-                    <button className="text-left px-3 py-2 rounded-lg text-[13px] font-medium text-gray-500 hover:bg-[#EAE8E3]/50 transition-colors">Privacy</button>
-                    <button className="text-left px-3 py-2 rounded-lg text-[13px] font-medium text-gray-500 hover:bg-[#EAE8E3]/50 transition-colors">Billing</button>
-                    <button className="text-left px-3 py-2 rounded-lg text-[13px] font-medium text-gray-500 hover:bg-[#EAE8E3]/50 transition-colors">Capabilities</button>
-                    <button className="text-left px-3 py-2 rounded-lg text-[13px] font-medium text-gray-500 hover:bg-[#EAE8E3]/50 transition-colors">Connectors</button>
-                    <button className="text-left px-3 py-2 rounded-lg text-[13px] font-medium text-gray-500 hover:bg-[#EAE8E3]/50 transition-colors">Claude Code</button>
+
                 </div>
 
                 {/* Content */}
