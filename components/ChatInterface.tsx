@@ -568,26 +568,26 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ user, onChatStart, onArti
                 {showToolsMenu && (
                   <div
                     ref={toolsMenuRef}
-                    className={`absolute left-0 w-[280px] bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-gray-100 dark:border-gray-700 py-1.5 z-[100] animate-in fade-in zoom-in-95 duration-100 origin-top-left ${menuPositionClass}`}
+                    className={`absolute left-0 w-[280px] bg-white dark:bg-[#1F1F1F] rounded-xl shadow-xl border border-gray-100 dark:border-gray-800 py-1.5 z-[100] animate-in fade-in zoom-in-95 duration-100 origin-top-left ${menuPositionClass}`}
                   >
                     {toolsMenuView === 'main' ? (
                       <>
                         <button
                           onClick={() => setToolsMenuView('styles')}
-                          className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-gray-50 text-left text-[13px] text-gray-700 transition-colors group"
+                          className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-gray-50 dark:hover:bg-white/5 text-left text-[13px] text-gray-700 dark:text-gray-200 transition-colors group"
                         >
                           <div className="flex items-center gap-3">
-                            <PenTool size={16} className="text-gray-500 group-hover:text-gray-700" />
+                            <PenTool size={16} className="text-gray-500 dark:text-gray-400 group-hover:text-gray-700 dark:group-hover:text-gray-200" />
                             <span>Use style</span>
                           </div>
                           <ChevronDown size={14} className="text-gray-400 -rotate-90" />
                         </button>
 
-                        <div className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-gray-50 cursor-pointer text-[13px] text-gray-700 transition-colors group" onClick={() => setUseExtendedThinking(!useExtendedThinking)}>
+                        <div className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-gray-50 dark:hover:bg-white/5 cursor-pointer text-[13px] text-gray-700 dark:text-gray-200 transition-colors group" onClick={() => setUseExtendedThinking(!useExtendedThinking)}>
                           <div className="flex items-center gap-3">
-                            <Timer size={16} className="text-gray-500 group-hover:text-gray-700" />
+                            <Timer size={16} className="text-gray-500 dark:text-gray-400 group-hover:text-gray-700 dark:group-hover:text-gray-200" />
                             <div>
-                              <div className="leading-none font-medium text-gray-700">Extended thinking</div>
+                              <div className="leading-none font-medium text-gray-700 dark:text-gray-200">Extended thinking</div>
                               {useExtendedThinking && <div className="text-[10px] text-gray-400 mt-0.5 font-normal">3 remaining until Dec 5</div>}
                             </div>
                           </div>
@@ -596,26 +596,26 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ user, onChatStart, onArti
                           </div>
                         </div>
 
-                        <div className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-gray-50 cursor-pointer text-[13px] text-gray-700 transition-colors group" onClick={() => setUseWebSearch(!useWebSearch)}>
+                        <div className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-gray-50 dark:hover:bg-white/5 cursor-pointer text-[13px] text-gray-700 dark:text-gray-200 transition-colors group" onClick={() => setUseWebSearch(!useWebSearch)}>
                           <div className="flex items-center gap-3">
-                            <Globe size={16} className="text-gray-500 group-hover:text-gray-700" />
-                            <span className="font-medium text-gray-700">Web search</span>
+                            <Globe size={16} className="text-gray-500 dark:text-gray-400 group-hover:text-gray-700 dark:group-hover:text-gray-200" />
+                            <span className="font-medium text-gray-700 dark:text-gray-200">Web search</span>
                           </div>
                           <div className={`w-9 h-5 rounded-full relative transition-colors duration-200 ${useWebSearch ? 'bg-[#0F62FE]' : 'bg-gray-200'}`}>
                             <div className={`absolute top-0.5 w-4 h-4 bg-white rounded-full transition-all duration-200 shadow-sm ${useWebSearch ? 'left-[18px]' : 'left-0.5'}`} />
                           </div>
                         </div>
 
-                        <div className="h-px bg-gray-100 my-1 mx-3" />
+                        <div className="h-px bg-gray-100 dark:bg-white/10 my-1 mx-3" />
 
-                        <button className="w-full flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 text-left text-[13px] text-gray-700 transition-colors group">
-                          <Plus size={16} className="text-gray-500 group-hover:text-gray-700" />
+                        <button className="w-full flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 dark:hover:bg-white/5 text-left text-[13px] text-gray-700 dark:text-gray-200 transition-colors group">
+                          <Plus size={16} className="text-gray-500 dark:text-gray-400 group-hover:text-gray-700 dark:group-hover:text-gray-200" />
                           <span>Add connectors</span>
                           <span className="text-[9px] bg-blue-50 text-blue-600 px-1.5 py-0.5 rounded font-medium border border-blue-100 ml-auto">PRO</span>
                         </button>
 
-                        <button className="w-full flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 text-left text-[13px] text-gray-700 transition-colors group">
-                          <Settings size={16} className="text-gray-500 group-hover:text-gray-700" />
+                        <button className="w-full flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 dark:hover:bg-white/5 text-left text-[13px] text-gray-700 dark:text-gray-200 transition-colors group">
+                          <Settings size={16} className="text-gray-500 dark:text-gray-400 group-hover:text-gray-700 dark:group-hover:text-gray-200" />
                           <span>Manage connectors</span>
                         </button>
                       </>
@@ -624,9 +624,9 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ user, onChatStart, onArti
                         <div className="px-1 py-1">
                           <button
                             onClick={() => setToolsMenuView('main')}
-                            className="w-full flex items-center gap-2 px-2 py-1.5 hover:bg-gray-100 rounded-lg text-[13px] font-medium text-gray-600 transition-colors bg-gray-50 mb-1"
+                            className="w-full flex items-center gap-2 px-2 py-1.5 hover:bg-gray-100 dark:hover:bg-white/10 rounded-lg text-[13px] font-medium text-gray-600 dark:text-gray-300 transition-colors bg-gray-50 dark:bg-white/5 mb-1"
                           >
-                            <ArrowLeft size={14} className="text-gray-500" />
+                            <ArrowLeft size={14} className="text-gray-500 dark:text-gray-400" />
                             <span>Use style</span>
                           </button>
                         </div>
@@ -635,10 +635,10 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ user, onChatStart, onArti
                           <button
                             key={style}
                             onClick={() => setSelectedStyle(style)}
-                            className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-gray-50 text-left text-[13px] text-gray-700 transition-colors group"
+                            className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-gray-50 dark:hover:bg-white/5 text-left text-[13px] text-gray-700 dark:text-gray-200 transition-colors group"
                           >
                             <div className="flex items-center gap-3">
-                              <PenTool size={16} className="text-gray-500 group-hover:text-gray-700" />
+                              <PenTool size={16} className="text-gray-500 dark:text-gray-400 group-hover:text-gray-700 dark:group-hover:text-gray-200" />
                               <span>{style}</span>
                             </div>
                             {selectedStyle === style && (
@@ -647,10 +647,10 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ user, onChatStart, onArti
                           </button>
                         ))}
 
-                        <div className="h-px bg-gray-100 my-1 mx-3" />
+                        <div className="h-px bg-gray-100 dark:bg-white/10 my-1 mx-3" />
 
-                        <button className="w-full flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 text-left text-[13px] text-gray-700 transition-colors group">
-                          <Plus size={16} className="text-gray-500 group-hover:text-gray-700" />
+                        <button className="w-full flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 dark:hover:bg-white/5 text-left text-[13px] text-gray-700 dark:text-gray-200 transition-colors group">
+                          <Plus size={16} className="text-gray-500 dark:text-gray-400 group-hover:text-gray-700 dark:group-hover:text-gray-200" />
                           <span>Create & edit styles</span>
                         </button>
                       </>
@@ -834,7 +834,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ user, onChatStart, onArti
                           <ReactMarkdown
                             components={{
                               code: (props) => (
-                                <CodeBlockRenderer {...props} onArtifactFound={onArtifactOpen} />
+                                <CodeBlockRenderer {...props} onArtifactFound={onArtifactOpen} isDarkMode={isDarkMode} />
                               )
                             }}
                           >
@@ -869,7 +869,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ user, onChatStart, onArti
                         <ReactMarkdown
                           components={{
                             code: (props) => (
-                              <CodeBlockRenderer {...props} onArtifactFound={onArtifactOpen} />
+                              <CodeBlockRenderer {...props} onArtifactFound={onArtifactOpen} isDarkMode={isDarkMode} />
                             )
                           }}
                         >
