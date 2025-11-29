@@ -16,28 +16,28 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
     };
 
     return (
-        <div className="flex h-screen w-screen bg-[#1A1A1A] text-white overflow-hidden font-sans">
+        <div className="flex h-screen w-screen bg-[#FDFCF8] text-[#333333] overflow-hidden font-sans">
             {/* Left Side - Login Form */}
-            <div className="w-full lg:w-[45%] flex flex-col p-8 lg:p-12 relative z-10">
+            <div className="w-full lg:w-[45%] flex flex-col p-8 lg:p-12 relative z-10 bg-[#FDFCF8]">
                 {/* Logo */}
-                <div className="flex items-center gap-2 mb-auto">
-                    <img src={NexaStar} alt="Nexa" className="w-6 h-6" />
-                    <span className="font-serif text-xl font-semibold">Nexa</span>
+                <div className="flex items-center gap-2.5 mb-auto">
+                    <img src={NexaStar} alt="Nexa" className="w-7 h-7" />
+                    <span className="font-serif text-2xl font-semibold text-[#333333]">Nexa</span>
                 </div>
 
                 {/* Main Content */}
                 <div className="flex flex-col items-center justify-center max-w-[400px] mx-auto w-full">
-                    <h1 className="font-serif text-5xl lg:text-6xl text-center mb-2 tracking-tight">
-                        Impossible?
+                    <h1 className="font-serif text-5xl lg:text-6xl text-center mb-3 tracking-tight text-[#333333]">
+                        Superior
                         <br />
-                        Possible.
+                        Standard
                     </h1>
-                    <p className="text-gray-400 mb-12 text-center text-sm">The AI for problem solvers</p>
+                    <p className="text-gray-500 mb-12 text-center text-[15px]">The next generation of inventive problem solving.</p>
 
-                    <div className="w-full bg-[#252525] p-6 rounded-2xl border border-[#333]">
+                    <div className="w-full bg-white p-6 rounded-2xl border border-gray-200 shadow-sm">
                         <button
                             onClick={onLogin}
-                            className="w-full flex items-center justify-center gap-3 bg-[#333] hover:bg-[#3d3d3d] text-white py-2.5 rounded-lg transition-colors mb-4 border border-[#444] text-sm font-medium"
+                            className="w-full flex items-center justify-center gap-3 bg-white hover:bg-gray-50 text-[#333333] py-2.5 rounded-lg transition-colors mb-4 border border-gray-200 text-sm font-medium"
                         >
                             <svg className="w-4 h-4" viewBox="0 0 24 24">
                                 <path
@@ -61,9 +61,9 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
                         </button>
 
                         <div className="relative flex items-center py-2 mb-4">
-                            <div className="flex-grow border-t border-[#444]"></div>
-                            <span className="flex-shrink-0 mx-4 text-gray-500 text-[10px] uppercase tracking-wider">OR</span>
-                            <div className="flex-grow border-t border-[#444]"></div>
+                            <div className="flex-grow border-t border-gray-200"></div>
+                            <span className="flex-shrink-0 mx-4 text-gray-400 text-[10px] uppercase tracking-wider">OR</span>
+                            <div className="flex-grow border-t border-gray-200"></div>
                         </div>
 
                         <form onSubmit={handleEmailLogin} className="space-y-3">
@@ -72,53 +72,39 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
                                 placeholder="Enter your email"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
-                                className="w-full bg-[#1A1A1A] border border-[#444] rounded-lg px-4 py-2.5 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-gray-300 transition-colors"
+                                className="w-full bg-white border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-[#333333] placeholder-gray-400 focus:outline-none focus:border-gray-400 focus:ring-1 focus:ring-gray-400 transition-all"
                             />
                             <button
                                 type="submit"
-                                className="w-full bg-white text-black hover:bg-gray-200 font-medium py-2.5 rounded-lg transition-colors text-sm"
+                                className="w-full bg-[#3B82F6] text-white hover:bg-[#2563EB] font-medium py-2.5 rounded-lg transition-colors text-sm"
                             >
                                 Continue with email
                             </button>
                         </form>
 
-                        <p className="text-[10px] text-gray-500 text-center mt-4 leading-tight">
-                            By continuing, you acknowledge Anthropic's Privacy Policy.
+                        <p className="text-[10px] text-gray-400 text-center mt-4 leading-tight">
+                            By continuing, you acknowledge Nexa's Privacy Policy.
                         </p>
                     </div>
                 </div>
 
                 {/* Footer Links */}
                 <div className="mt-auto pt-8 flex flex-wrap gap-4 text-xs text-gray-500 justify-center lg:justify-start">
-                    <a href="#" className="hover:text-gray-300">Meet Claude</a>
-                    <a href="#" className="hover:text-gray-300">Platform</a>
-                    <a href="#" className="hover:text-gray-300">Solutions</a>
-                    <a href="#" className="hover:text-gray-300">Pricing</a>
-                    <a href="#" className="hover:text-gray-300">Learn</a>
+                    <a href="#" className="hover:text-[#333333] transition-colors">Meet Nexa</a>
+                    <a href="#" className="hover:text-[#333333] transition-colors">Platform</a>
+                    <a href="#" className="hover:text-[#333333] transition-colors">Solutions</a>
+                    <a href="#" className="hover:text-[#333333] transition-colors">Pricing</a>
+                    <a href="#" className="hover:text-[#333333] transition-colors">Learn</a>
                 </div>
             </div>
 
             {/* Right Side - Hero Image */}
-            <div className="hidden lg:block w-[55%] bg-[#C25E3E] relative overflow-hidden">
-                {/* Abstract Doodles (CSS/SVG) */}
-                <div className="absolute inset-0 opacity-30 pointer-events-none">
-                    <svg className="absolute top-20 left-20 w-32 h-32 text-green-300/40" viewBox="0 0 100 100">
-                        <path d="M10,50 Q25,25 50,50 T90,50" fill="none" stroke="currentColor" strokeWidth="2" />
-                    </svg>
-                    <svg className="absolute bottom-40 right-40 w-48 h-48 text-purple-300/40" viewBox="0 0 100 100">
-                        <circle cx="50" cy="50" r="40" fill="none" stroke="currentColor" strokeWidth="2" strokeDasharray="5,5" />
-                    </svg>
-                </div>
-
-                {/* Placeholder for Hero Image - Centered Text if image fails or is missing */}
-                <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="text-white/20 font-serif text-4xl">
-                        (Hero Image Placeholder)
-                    </div>
-                </div>
-
-                {/* If we had the image, it would go here: */}
-                {/* <img src={HeroImage} alt="Hero" className="absolute inset-0 w-full h-full object-cover" /> */}
+            <div className="hidden lg:block w-[55%] relative overflow-hidden bg-[#F0F0F0]">
+                <img
+                    src="/Login Wallpaper.jpeg"
+                    alt="Superior Standard"
+                    className="absolute inset-0 w-full h-full object-cover"
+                />
             </div>
         </div>
     );
