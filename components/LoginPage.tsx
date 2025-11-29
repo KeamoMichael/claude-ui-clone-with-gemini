@@ -8,6 +8,8 @@ interface LoginPageProps {
 
 const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
     const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [step, setStep] = useState<'email' | 'password'>('email');
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState<{ type: 'success' | 'error', text: string } | null>(null);
 
@@ -15,20 +17,30 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
         e.preventDefault();
         if (!email) return;
 
-        setLoading(true);
         setMessage(null);
 
+        if (step === 'email') {
+            // Just move to password step if email is entered
+            setStep('password');
+            return;
+        }
+
+        if (!password) {
+            setMessage({ type: 'error', text: 'Please enter your password' });
+            return;
+        }
+
+        setLoading(true);
+
         try {
-            const { error } = await supabase.auth.signInWithOtp({
+            const { error } = await supabase.auth.signInWithPassword({
                 email,
-                options: {
-                    emailRedirectTo: window.location.origin,
-                },
+                password,
             });
 
             if (error) throw error;
 
-            setMessage({ type: 'success', text: 'Check your email for the login link!' });
+            // Login successful - App.tsx will handle the redirect via onAuthStateChange
         } catch (error: any) {
             setMessage({ type: 'error', text: error.message || 'An error occurred' });
         } finally {
@@ -107,9 +119,22 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
                                 placeholder="Enter your email"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
-                                disabled={loading}
+                                disabled={loading || step === 'password'}
                                 className="w-full bg-white border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-[#333333] placeholder-gray-400 focus:outline-none focus:border-gray-400 focus:ring-1 focus:ring-gray-400 transition-all disabled:opacity-50"
                             />
+
+                            {step === 'password' && (
+                                <input
+                                    type="password"
+                                    placeholder="Enter your password"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    disabled={loading}
+                                    className="w-full bg-white border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-[#333333] placeholder-gray-400 focus:outline-none focus:border-gray-400 focus:ring-1 focus:ring-gray-400 transition-all disabled:opacity-50"
+                                    autoFocus
+                                />
+                            )}
+
                             <button
                                 type="submit"
                                 disabled={loading}
@@ -118,7 +143,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
                                 {loading ? (
                                     <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                                 ) : (
-                                    'Continue with email'
+                                    step === 'email' ? 'Continue with email' : 'Sign In'
                                 )}
                             </button>
                         </form>

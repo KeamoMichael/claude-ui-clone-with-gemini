@@ -511,7 +511,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ user, onChatStart, onArti
 
   const inputUI = (
     <div className={`relative w-full ${isArtifactOpen ? 'max-w-2xl px-0' : 'max-w-3xl'} mx-auto z-20 transition-all duration-500`}>
-      <div className="bg-white rounded-2xl border border-[#E5E2DA] shadow-sm focus-within:ring-1 focus-within:ring-black/5 focus-within:border-gray-300 transition-all">
+      <div className="bg-white dark:bg-claude-input rounded-2xl border border-claude-border shadow-sm focus-within:ring-1 focus-within:ring-black/5 dark:focus-within:ring-white/10 focus-within:border-gray-300 dark:focus-within:border-gray-600 transition-all">
         <div className="p-3 pb-2">
           <textarea
             ref={textareaRef}
@@ -539,7 +539,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ user, onChatStart, onArti
                       setShowToolsMenu(!showToolsMenu);
                       setToolsMenuView('main');
                     }}
-                    className={`p-1.5 rounded-lg hover:bg-gray-100 text-gray-500 transition-colors ${showToolsMenu ? 'bg-gray-100 text-gray-800' : ''}`}
+                    className={`p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 text-gray-500 dark:text-gray-400 transition-colors ${showToolsMenu ? 'bg-gray-100 dark:bg-white/10 text-gray-800 dark:text-gray-200' : ''}`}
                   >
                     <SlidersHorizontal size={16} />
                   </button>
@@ -548,7 +548,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ user, onChatStart, onArti
                 {showToolsMenu && (
                   <div
                     ref={toolsMenuRef}
-                    className={`absolute left-0 w-[280px] bg-white rounded-xl shadow-xl border border-gray-100 py-1.5 z-[100] animate-in fade-in zoom-in-95 duration-100 origin-top-left ${menuPositionClass}`}
+                    className={`absolute left-0 w-[280px] bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-gray-100 dark:border-gray-700 py-1.5 z-[100] animate-in fade-in zoom-in-95 duration-100 origin-top-left ${menuPositionClass}`}
                   >
                     {toolsMenuView === 'main' ? (
                       <>
@@ -661,7 +661,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ user, onChatStart, onArti
                 {showModelMenu && (
                   <div
                     ref={modelMenuRef}
-                    className={`absolute right-0 w-[300px] bg-white rounded-xl shadow-xl border border-gray-100 py-2 z-[100] animate-in fade-in zoom-in-95 duration-100 origin-top-right ${menuPositionClass}`}
+                    className={`absolute right-0 w-[300px] bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-gray-100 dark:border-gray-700 py-2 z-[100] animate-in fade-in zoom-in-95 duration-100 origin-top-right ${menuPositionClass}`}
                   >
                     <button
                       onClick={() => { setSelectedModel(GeminiModel.FLASH); setShowModelMenu(false); }}
@@ -697,7 +697,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ user, onChatStart, onArti
                   disabled={!input.trim() || isTyping}
                   className={`p-1.5 rounded-lg transition-all duration-200 ${input.trim() && !isTyping
                     ? 'bg-[#3B82F6] text-white hover:bg-[#2563EB]'
-                    : 'bg-[#EAE8E3] text-gray-400 cursor-not-allowed'
+                    : 'bg-[#EAE8E3] dark:bg-white/10 text-gray-400 dark:text-gray-500 cursor-not-allowed'
                     }`}
                 >
                   <ArrowUp size={16} strokeWidth={3} />
@@ -772,7 +772,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ user, onChatStart, onArti
                       <div className="w-8 h-8 rounded-full bg-[#333333] flex items-center justify-center text-white shrink-0 text-xs font-medium mt-1">
                         {user.name.charAt(0)}
                       </div>
-                      <div className="bg-[#F0EFEA] text-claude-text px-4 py-2.5 rounded-2xl max-w-[85%] text-[15px] leading-relaxed">
+                      <div className="bg-[#F0EFEA] dark:bg-[#2A2A2A] text-claude-text px-4 py-2.5 rounded-2xl max-w-[85%] text-[15px] leading-relaxed">
                         <div className="prose prose-stone prose-sm max-w-none text-claude-text">
                           <ReactMarkdown>
                             {msg.content}

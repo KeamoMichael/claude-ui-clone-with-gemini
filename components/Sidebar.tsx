@@ -17,6 +17,7 @@ import {
 } from 'lucide-react';
 import { User, ChatSession } from '../types';
 import NexaStar from '../Assets/Nexa-Star02.png';
+import { supabase } from '../services/supabaseClient';
 
 interface SidebarProps {
   isOpen: boolean;
@@ -31,6 +32,16 @@ interface SidebarProps {
 const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, startNewChat, user, recentChats, onLoadChat, onOpenSettings }) => {
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const profileRef = useRef<HTMLDivElement>(null);
+
+  const handleLogout = async () => {
+    try {
+      await supabase.auth.signOut();
+      window.location.reload();
+    } catch (error) {
+      console.error('Error logging out:', error);
+      window.location.reload();
+    }
+  };
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -71,7 +82,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, startNewChat, 
           <button
             onClick={toggleSidebar}
             className={`
-                z-20 p-1 hover:bg-[#E4E2DD] rounded-md text-gray-500 transition-colors
+                z-20 p-1 hover:bg-black/5 dark:hover:bg-white/10 rounded-md text-gray-500 dark:text-gray-400 transition-colors
                 ${isOpen ? '' : 'mt-4'}
               `}
           >
@@ -86,7 +97,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, startNewChat, 
             <div className="px-3 space-y-1 mt-1 fade-in">
               <button
                 onClick={startNewChat}
-                className="w-full flex items-center gap-2.5 px-2.5 py-2 rounded-lg hover:bg-[#E4E2DD] transition-colors text-claude-text group"
+                className="w-full flex items-center gap-2.5 px-2.5 py-2 rounded-lg hover:bg-black/5 dark:hover:bg-white/10 transition-colors text-claude-text group"
               >
                 <div className="bg-[#3B82F6] text-white rounded-full p-0.5 shrink-0">
                   <Plus size={14} strokeWidth={3} />
@@ -96,22 +107,22 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, startNewChat, 
                 </span>
               </button>
 
-              <button className="w-full flex items-center gap-3 px-2.5 py-2 rounded-lg hover:bg-[#E4E2DD] transition-colors group text-claude-text">
-                <MessageSquare size={18} className="text-gray-500 shrink-0" />
+              <button className="w-full flex items-center gap-3 px-2.5 py-2 rounded-lg hover:bg-black/5 dark:hover:bg-white/10 transition-colors group text-claude-text">
+                <MessageSquare size={18} className="text-gray-500 dark:text-gray-400 shrink-0" />
                 <span className="whitespace-nowrap opacity-100">
                   Chats
                 </span>
               </button>
 
-              <button className="w-full flex items-center gap-3 px-2.5 py-2 rounded-lg hover:bg-[#E4E2DD] transition-colors group text-claude-text">
-                <Library size={18} className="text-gray-500 shrink-0" />
+              <button className="w-full flex items-center gap-3 px-2.5 py-2 rounded-lg hover:bg-black/5 dark:hover:bg-white/10 transition-colors group text-claude-text">
+                <Library size={18} className="text-gray-500 dark:text-gray-400 shrink-0" />
                 <span className="whitespace-nowrap opacity-100">
                   Projects
                 </span>
               </button>
 
-              <button className="w-full flex items-center gap-3 px-2.5 py-2 rounded-lg hover:bg-[#E4E2DD] transition-colors group text-claude-text">
-                <LayoutGrid size={18} className="text-gray-500 shrink-0" />
+              <button className="w-full flex items-center gap-3 px-2.5 py-2 rounded-lg hover:bg-black/5 dark:hover:bg-white/10 transition-colors group text-claude-text">
+                <LayoutGrid size={18} className="text-gray-500 dark:text-gray-400 shrink-0" />
                 <span className="whitespace-nowrap opacity-100">
                   Artifacts
                 </span>
@@ -129,9 +140,9 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, startNewChat, 
                     <li key={item.id}>
                       <button
                         onClick={() => onLoadChat && onLoadChat(item.id)}
-                        className="w-full text-left px-3 py-1.5 rounded-lg hover:bg-[#E4E2DD] truncate transition-colors"
+                        className="w-full text-left px-3 py-1.5 rounded-lg hover:bg-black/5 dark:hover:bg-white/10 truncate transition-colors"
                       >
-                        <span className="truncate block opacity-90 text-[13px]">{item.title}</span>
+                        <span className="truncate block opacity-90 text-[13px] text-claude-text">{item.title}</span>
                       </button>
                     </li>
                   ))}
@@ -187,7 +198,10 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, startNewChat, 
                   <div className="h-px bg-gray-100 mx-3 my-0.5" />
 
                   <div className="py-1.5">
-                    <button className="w-full flex items-center gap-3 px-3 py-2 hover:bg-gray-50 text-left text-[13px] text-gray-700 transition-colors">
+                    <button
+                      onClick={handleLogout}
+                      className="w-full flex items-center gap-3 px-3 py-2 hover:bg-gray-50 text-left text-[13px] text-gray-700 transition-colors"
+                    >
                       <LogOut size={16} className="text-gray-500" />
                       <span>Log out</span>
                     </button>
@@ -197,7 +211,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, startNewChat, 
 
               <div
                 onClick={() => setShowProfileMenu(!showProfileMenu)}
-                className={`flex items-center gap-3 p-2 rounded-lg hover:bg-[#E4E2DD] cursor-pointer transition-colors ${showProfileMenu ? 'bg-[#E4E2DD]' : ''}`}
+                className={`flex items-center gap-3 p-2 rounded-lg hover:bg-black/5 dark:hover:bg-white/10 cursor-pointer transition-colors ${showProfileMenu ? 'bg-black/5 dark:bg-white/10' : ''}`}
               >
                 <div className="w-7 h-7 rounded-full bg-[#3B82F6] text-white flex items-center justify-center font-medium text-xs shrink-0">
                   {user.name.charAt(0)}
@@ -217,7 +231,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, startNewChat, 
           <div className="flex-1 flex flex-col items-center mt-4 gap-4">
             <button
               onClick={startNewChat}
-              className="p-2 rounded-lg hover:bg-[#E4E2DD] text-claude-text transition-colors"
+              className="p-2 rounded-lg hover:bg-black/5 dark:hover:bg-white/10 text-claude-text transition-colors"
               title="New Chat"
             >
               <Plus size={20} />
